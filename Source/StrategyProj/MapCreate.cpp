@@ -37,12 +37,25 @@ void AMapCreate::CreateMap()
 	}
 
 	// •”‰®“¯m‚ğ‚Â‚È‚¢‚Å‚¢‚­
-	for (int num = 0; num < MyStatus.RoomCount * MyStatus.RoomCount - 1; num++) {
+	for (int num = 0; num < MyStatus.RoomCount * MyStatus.RoomCount; num++) {
 		// ‰¡‚Æ‚Â‚È‚®
-		AreaList[num]->CreateRoad(AreaList[num]->MyRoom, AreaList[num + 1]->MyRoom);
+		if ((num + 1) % MyStatus.RoomCount != 0) AreaList[num]->CreateRoad(AreaList[num]->MyRoom, AreaList[num + 1]->MyRoom);
 		// c‚Æ‚Â‚È‚®
 		if (num < MyStatus.RoomCount * (MyStatus.RoomCount - 1)) {
 			AreaList[num]->CreateRoad(AreaList[num]->MyRoom, AreaList[num + MyStatus.RoomCount]->MyRoom);
+		}
+		AreaList[num]->MyRoom->CheckConnectRoom();
+	}
+
+	// •”‰®‚ªŒÇ—§‚µ‚È‚¢‚æ‚¤‚É’²®
+	for (int num = 0; num < MyStatus.RoomCount *  MyStatus.RoomCount - 1; num++) {
+		// •”‰®‚ªíœ‚³‚ê‚Ä‚¢‚é‚È‚çƒŠƒ^[ƒ“
+		if (AreaList[num]->MyRoom == nullptr) return;
+		
+		if (AreaList[num + 1]->MyRoom != nullptr && (num + 1) % MyStatus.RoomCount != 0) AreaList[num]->ConnectRoad(AreaList[num]->MyRoom, AreaList[num + 1]->MyRoom);
+
+		if (num < MyStatus.RoomCount * (MyStatus.RoomCount - 1) && AreaList[num + MyStatus.RoomCount]->MyRoom != nullptr) {
+			AreaList[num]->ConnectRoad(AreaList[num]->MyRoom, AreaList[num + MyStatus.RoomCount]->MyRoom);
 		}
 	}
 }

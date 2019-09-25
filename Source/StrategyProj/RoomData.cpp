@@ -57,14 +57,20 @@ void ARoomData::CreateRoom()
 void ARoomData::CreateRoad(ARoomActor* _MyRoom, ARoomActor* _OpponentRoom)
 {
 	_MyRoom->ConnectRoom(_MyRoom, _OpponentRoom);
+}
 
-	CheckRoomConnect();
+// 孤立しないよう調節
+void ARoomData::ConnectRoad(ARoomActor * _MyRoom, ARoomActor * _OpponentRoom)
+{
+	// つないでいく
+	if (_OpponentRoom->ConnectRoomList.Num() == 1) {
+		_MyRoom->RemainderConnect(_MyRoom, _OpponentRoom);
+	}
 }
 
 // 部屋がつながっているかチェック
 void ARoomData::CheckRoomConnect()
 {
-	MyRoom->CheckConnect();
 }
 
 // Called when the game starts or when spawned

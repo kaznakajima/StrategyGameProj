@@ -53,6 +53,8 @@ public:
 	void InitializeRoom();
 	// エリア間の通路を作っていく
 	void CreateRoad(ARoomActor* _MyRoom, ARoomActor* _OpponentRoom);
+	// 孤立しないように調節
+	void ConnectRoad(ARoomActor* _MyRoom, ARoomActor* _OpponentRoom);
 	// 部屋がつながっているかチェック
 	void CheckRoomConnect();
 

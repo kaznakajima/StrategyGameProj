@@ -40,9 +40,10 @@ void ARoomActor::ConnectRoom(ARoomActor * _MyRoom, ARoomActor * _OpponentRoom)
 
 		if (IsConnect > 49) {
 			_MyRoom->Aisle_R_Mesh->SetHiddenInGame(false);
-		}
-		else {
-			return;
+
+			// 部屋同士をつないでいく
+			_MyRoom->ConnectRoomList.Add(_OpponentRoom);
+			_OpponentRoom->ConnectRoomList.Add(_MyRoom);
 		}
 	}
 
@@ -51,15 +52,28 @@ void ARoomActor::ConnectRoom(ARoomActor * _MyRoom, ARoomActor * _OpponentRoom)
 
 		if (IsConnect > 49) {
 			_MyRoom->Aisle_B_Mesh->SetHiddenInGame(false);
-		}
-		else {
-			return;
+
+			// 部屋同士をつないでいく
+			_MyRoom->ConnectRoomList.Add(_OpponentRoom);
+			_OpponentRoom->ConnectRoomList.Add(_MyRoom);
 		}
 	}
+}
 
-	// つなげない場合はリターン
-	if (DifferencePos.X > 0.0f && DifferencePos.Y > 0.0f) {
-		return;
+// 孤立しないように調整
+void ARoomActor::RemainderConnect(ARoomActor * _MyRoom, ARoomActor * _OpponentRoom)
+{
+	// 同じものは省く
+	if (_MyRoom->ConnectRoomList.Contains(_OpponentRoom)) return;
+
+	// 部屋同士がつなげるかチェック
+	FVector DifferencePos = _MyRoom->GetActorLocation() - _OpponentRoom->GetActorLocation();
+	if (DifferencePos.X < 0.0f) {
+		_MyRoom->Aisle_R_Mesh->SetHiddenInGame(false);
+	}
+
+	if (DifferencePos.Y < 0.0f) {
+		_MyRoom->Aisle_B_Mesh->SetHiddenInGame(false);
 	}
 
 	// 部屋同士をつないでいく
@@ -67,10 +81,13 @@ void ARoomActor::ConnectRoom(ARoomActor * _MyRoom, ARoomActor * _OpponentRoom)
 	_OpponentRoom->ConnectRoomList.Add(_MyRoom);
 }
 
-// 他の部屋とつながっているかチェック
-void ARoomActor::CheckConnect()
+// 部屋がつながっているかチェック
+void ARoomActor::CheckConnectRoom()
 {
-	if (ConnectRoomList.Num() == 0) Destroy();
+	if (ConnectRoomList.Num() == 0) {
+		Destroy();
+		EndPlay(EEndPlayReason::Type::Destroyed);
+	}
 }
 
 // Called when the game starts or when spawned

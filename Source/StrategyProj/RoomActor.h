@@ -43,8 +43,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "RoomFunc")
 	void ConnectRoom(ARoomActor* _MyRoom, ARoomActor* _OpponentRoom);
 
-	// 他の部屋につながっているかチェック
-	void CheckConnect();
+	// 孤立しないように調整
+	void RemainderConnect(ARoomActor* _MyRoom, ARoomActor* _OpponentRoom);
+
+	// 部屋がつながっているかチェック
+	void CheckConnectRoom();
 
 protected:
 
