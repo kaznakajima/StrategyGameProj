@@ -2,7 +2,7 @@
 
 #include "RoomData.h"
 
-// Sets default values
+// コンストラクタ
 ARoomData::ARoomData()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -17,6 +17,7 @@ void ARoomData::Init(int _ID, int _x, int _y, int _width, int _height)
 	OwnerTop = _y;
 	OwnerLeft = _x;
 	
+	// 部屋の大きさの定義
 	MyStatus.RoomWidth = _width - 2;
 	MyStatus.RoomHeight = _height - 2;
 }
@@ -30,6 +31,7 @@ void ARoomData::InitializeRoom()
 	MyStatus.Left = OwnerLeft;
 	MyStatus.Right = MyStatus.Left + MyStatus.RoomWidth;
 
+	// 部屋の生成
 	CreateRoom();
 }
 
@@ -37,7 +39,7 @@ void ARoomData::InitializeRoom()
 void ARoomData::CreateRoom()
 {
 	// 部屋用のアクターの準備
-	FString path = "/Game/MyRoomActor.MyRoomActor_C"; 
+	FString path = "/Game/StageParts/MyRoomActor.MyRoomActor_C"; 
 	TSubclassOf<class AActor> sc = TSoftClassPtr<AActor>(FSoftObjectPath(*path)).LoadSynchronous();
 
 	// マップ生成
@@ -49,28 +51,25 @@ void ARoomData::CreateRoom()
 	StageChip->SetActorLocation(SpawnPos);
 	StageChip->SetActorScale3D(SpawnScale);
 	StageChip->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
-
+	// 部屋アクターの格納
 	MyRoom = Cast<ARoomActor>(StageChip);
 }
 
 // 通路の生成
 void ARoomData::CreateRoad(ARoomActor* _MyRoom, ARoomActor* _OpponentRoom)
 {
+	// 通路を作っていく(ランダム)
 	_MyRoom->ConnectRoom(_MyRoom, _OpponentRoom);
 }
 
-// 孤立しないよう調節
+// 部屋が孤立しないよう調節
 void ARoomData::ConnectRoad(ARoomActor * _MyRoom, ARoomActor * _OpponentRoom)
 {
-	// つないでいく
-	if (_OpponentRoom->ConnectRoomList.Num() == 1) {
+	// 接続が少ない部分からつないでいく
+	if (_MyRoom->ConnectRoomList.Num() == 1 && _OpponentRoom->ConnectRoomList.Num() > 0 ||
+		_MyRoom->ConnectRoomList.Num() == 2 && _OpponentRoom->ConnectRoomList.Num() == 1) {
 		_MyRoom->RemainderConnect(_MyRoom, _OpponentRoom);
 	}
-}
-
-// 部屋がつながっているかチェック
-void ARoomData::CheckRoomConnect()
-{
 }
 
 // Called when the game starts or when spawned

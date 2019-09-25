@@ -7,18 +7,19 @@
 #include "Components/StaticMeshComponent.h"
 #include "RoomActor.generated.h"
 
+// ルームアクタークラス
 UCLASS()
 class STRATEGYPROJ_API ARoomActor : public AActor
 {
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this actor's properties
+	// コンストラクタ
 	ARoomActor();
 
 	// 部屋そのもののメッシュ
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RoomParts")
-		class UStaticMeshComponent* TileMesh;
+	class UStaticMeshComponent* TileMesh;
 
 	//------------------部屋の四方の通路------------------
 	// 上
@@ -58,11 +59,18 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// 部屋のメッシュの取得
 	FORCEINLINE class UStaticMeshComponent* GetTileMesh() const { return TileMesh; }
 
+	// ------------------部屋の四方の通路------------------
+	// 上
 	FORCEINLINE class UStaticMeshComponent* GetAisle_T_Mesh() const { return Aisle_T_Mesh; }
+	// 下
 	FORCEINLINE class UStaticMeshComponent* GetAisle_B_Mesh() const { return Aisle_B_Mesh; }
+	// 左
 	FORCEINLINE class UStaticMeshComponent* GetAisle_L_Mesh() const { return Aisle_L_Mesh; }
+	// 右
 	FORCEINLINE class UStaticMeshComponent* GetAisle_R_Mesh() const { return Aisle_B_Mesh; }
+	//------------------------------------------------------
 
 };

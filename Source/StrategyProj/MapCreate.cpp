@@ -13,7 +13,7 @@ AMapCreate::AMapCreate()
 // ƒ}ƒbƒv‚Ì¶¬
 void AMapCreate::CreateMap()
 {
-	FString path = "/Game/MyRoomData.MyRoomData_C";
+	FString path = "/Game/StageParts/MyRoomData.MyRoomData_C";
 	TSubclassOf<class AActor> sc = TSoftClassPtr<AActor>(FSoftObjectPath(*path)).LoadSynchronous();
 
 	// •”‰®‚ğì‚é

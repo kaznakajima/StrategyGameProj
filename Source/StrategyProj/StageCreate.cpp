@@ -20,7 +20,7 @@ void AStageCreate::CreateMap()
 // •”‰®‚ğ¶¬
 void AStageCreate::CreateArea()
 {
-	FString path = "/Game/room.room_C"; 
+	FString path = "/Game/StageParts/room.room_C"; 
 	TSubclassOf<class AActor> sc = TSoftClassPtr<AActor>(FSoftObjectPath(*path)).LoadSynchronous(); 
 
 	int SplitValueX= FMath::RandRange(1, 3);

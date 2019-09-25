@@ -7,6 +7,7 @@
 #include "RoomData.h"
 #include "MapCreate.generated.h"
 
+// マップのステータス
 USTRUCT(BlueprintType)
 struct FMapStatus
 {
@@ -26,13 +27,14 @@ struct FMapStatus
 	int RoomCount;
 };
 
+// マップクリエイトクラス
 UCLASS()
 class STRATEGYPROJ_API AMapCreate : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+	// コンストラクタ
 	AMapCreate();
 
 	// ステージのステータス
@@ -40,6 +42,7 @@ public:
 	FMapStatus MyStatus;
 
 protected:
+	// 部屋のリスト
 	TArray<ARoomData*> AreaList;
 
 	// ステージを作っていく

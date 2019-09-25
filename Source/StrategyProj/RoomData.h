@@ -8,6 +8,7 @@
 #include "StrategyProjCharacter.h"
 #include "RoomData.generated.h"
 
+// 部屋のステータス
 USTRUCT(BlueprintType)
 struct FRoomStatus
 {
@@ -36,6 +37,7 @@ struct FRoomStatus
 	int RoomHeight;
 };
 
+// ルームデータクラス
 UCLASS()
 class STRATEGYPROJ_API ARoomData : public AActor
 {
@@ -45,6 +47,7 @@ public:
 	// Sets default values for this actor's properties
 	ARoomData();
 
+	// 初期化
 	void Init(int _ID, int _x, int _y, int _width, int _height);
 
 	// 部屋の大きさを定義
@@ -53,10 +56,8 @@ public:
 	void InitializeRoom();
 	// エリア間の通路を作っていく
 	void CreateRoad(ARoomActor* _MyRoom, ARoomActor* _OpponentRoom);
-	// 孤立しないように調節
+	// 部屋が孤立しないように調節
 	void ConnectRoad(ARoomActor* _MyRoom, ARoomActor* _OpponentRoom);
-	// 部屋がつながっているかチェック
-	void CheckRoomConnect();
 
 	// 区画情報
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
