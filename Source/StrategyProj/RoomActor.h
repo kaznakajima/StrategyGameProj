@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
+#include "Particles/ParticleSystemComponent.h"
 #include "RoomActor.generated.h"
 
 // ルームアクタークラス
@@ -35,6 +36,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RoomParts")
 		class UStaticMeshComponent* Aisle_R_Mesh;
 	//------------------------------------------------------
+
+	// 部屋用パーティクル
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Particle")
+	class UParticleSystemComponent* ParticleSystem;
 
 	// つながっている部屋のリスト
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RoomParts")
@@ -73,4 +78,6 @@ public:
 	FORCEINLINE class UStaticMeshComponent* GetAisle_R_Mesh() const { return Aisle_B_Mesh; }
 	//------------------------------------------------------
 
+	// 部屋のParticleの取得
+	FORCEINLINE class UParticleSystemComponent* GetParticleSystem() const { return ParticleSystem; }
 };

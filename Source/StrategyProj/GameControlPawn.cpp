@@ -10,14 +10,17 @@ AGameControlPawn::AGameControlPawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	// StaticMeshのセットアップ
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	StaticMesh->SetupAttachment(RootComponent);
 
+	// SpringArmのセットアップ
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	CameraBoom->SetupAttachment(StaticMesh);
 	CameraBoom->TargetArmLength = 300.0f;
 	CameraBoom->bUsePawnControlRotation = true;
 
+	// Cameraのセットアップ
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera")); 
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;

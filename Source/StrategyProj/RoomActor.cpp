@@ -30,6 +30,10 @@ ARoomActor::ARoomActor()
 	Aisle_R_Mesh->SetRelativeLocation(FVector(67.0f, 0.0f, 0.0f));
 	Aisle_R_Mesh->SetRelativeScale3D(FVector(0.35f, 0.35f, 1.0f));
 
+	// ParticleSystemのセットアップ
+	ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("P_Smoke"));
+	ParticleSystem->SetupAttachment(TileMesh);
+
  	// Tickを適用
 	PrimaryActorTick.bCanEverTick = true;
 }
