@@ -37,13 +37,13 @@ public:
 		class UStaticMeshComponent* Aisle_R_Mesh;
 	//------------------------------------------------------
 
-	// 部屋用パーティクル
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Particle")
-	class UParticleSystemComponent* ParticleSystem;
-
 	// つながっている部屋のリスト
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RoomParts")
 	TArray<ARoomActor*> ConnectRoomList;
+
+	// 部屋用のエフェクト
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RoomParts")
+	AActor* RoomEffect;
 
 	// 部屋同士をつなぐ
 	UFUNCTION(BlueprintCallable, Category = "RoomFunc")
@@ -56,6 +56,9 @@ public:
 	void CheckConnectRoom();
 
 protected:
+	// 部屋の状態を初期化
+	UFUNCTION(BlueprintCallable, Category = "RoomAction")
+	void RoomImitialize();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -78,6 +81,4 @@ public:
 	FORCEINLINE class UStaticMeshComponent* GetAisle_R_Mesh() const { return Aisle_B_Mesh; }
 	//------------------------------------------------------
 
-	// 部屋のParticleの取得
-	FORCEINLINE class UParticleSystemComponent* GetParticleSystem() const { return ParticleSystem; }
 };

@@ -30,10 +30,6 @@ ARoomActor::ARoomActor()
 	Aisle_R_Mesh->SetRelativeLocation(FVector(67.0f, 0.0f, 0.0f));
 	Aisle_R_Mesh->SetRelativeScale3D(FVector(0.35f, 0.35f, 1.0f));
 
-	// ParticleSystemのセットアップ
-	ParticleSystem = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("P_Smoke"));
-	ParticleSystem->SetupAttachment(TileMesh);
-
  	// Tickを適用
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -52,6 +48,7 @@ void ARoomActor::ConnectRoom(ARoomActor * _MyRoom, ARoomActor * _OpponentRoom)
 		// 通路を作る
 		if (IsConnect > 49) {
 			_MyRoom->Aisle_R_Mesh->SetHiddenInGame(false);
+			_MyRoom->Aisle_R_Mesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 
 			// 接続した部屋をリストに格納
 			_MyRoom->ConnectRoomList.Add(_OpponentRoom);
@@ -67,6 +64,7 @@ void ARoomActor::ConnectRoom(ARoomActor * _MyRoom, ARoomActor * _OpponentRoom)
 		// 通路を作る
 		if (IsConnect > 49) {
 			_MyRoom->Aisle_B_Mesh->SetHiddenInGame(false);
+			_MyRoom->Aisle_B_Mesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 
 			// 接続した部屋をリストに格納
 			_MyRoom->ConnectRoomList.Add(_OpponentRoom);
@@ -87,10 +85,12 @@ void ARoomActor::RemainderConnect(ARoomActor * _MyRoom, ARoomActor * _OpponentRo
 	// 横通路
 	if (DifferencePos.X < 0.0f) {
 		_MyRoom->Aisle_R_Mesh->SetHiddenInGame(false);
+		_MyRoom->Aisle_R_Mesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	}
 	// 縦通路
 	if (DifferencePos.Y < 0.0f) {
 		_MyRoom->Aisle_B_Mesh->SetHiddenInGame(false);
+		_MyRoom->Aisle_B_Mesh->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	}
 
 	// 部屋同士をつないでいく
@@ -106,6 +106,21 @@ void ARoomActor::CheckConnectRoom()
 		Destroy();
 		EndPlay(EEndPlayReason::Type::Destroyed);
 	}
+	else {
+		RoomImitialize();
+	}
+}
+
+// 部屋の状態を初期化
+void ARoomActor::RoomImitialize()
+{
+	FString path = "/Game/StageParts/RoomEffect.RoomEffect_C";
+	TSubclassOf<class AActor> sc = TSoftClassPtr<AActor>(FSoftObjectPath(*path)).LoadSynchronous();
+
+	// エフェクトの位置調整
+	RoomEffect = GetWorld()->SpawnActor<AActor>(sc);
+	RoomEffect->SetActorLocation(GetActorLocation());
+	RoomEffect->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 }
 
 // Called when the game starts or when spawned
