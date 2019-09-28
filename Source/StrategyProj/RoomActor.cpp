@@ -99,16 +99,17 @@ void ARoomActor::RemainderConnect(ARoomActor * _MyRoom, ARoomActor * _OpponentRo
 }
 
 // 部屋がつながっているかチェック
-void ARoomActor::CheckConnectRoom()
+bool ARoomActor::CheckConnectRoom()
 {
 	// 部屋がつながっていないのなら削除
 	if (ConnectRoomList.Num() == 0) {
 		Destroy();
-		EndPlay(EEndPlayReason::Type::Destroyed);
+		return true;
 	}
 	else {
 		RoomImitialize();
 	}
+	return false;
 }
 
 // 部屋の状態を初期化

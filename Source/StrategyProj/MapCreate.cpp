@@ -2,6 +2,7 @@
 
 #include "MapCreate.h"
 #include "Kismet/GameplayStatics.h"
+#include "BattleCharacter.h"
 
 // コンストラクタ
 AMapCreate::AMapCreate()
@@ -15,24 +16,18 @@ void AMapCreate::CreateMap()
 {
 	FString path = "/Game/StageParts/MyRoomData.MyRoomData_C";
 	TSubclassOf<class AActor> sc = TSoftClassPtr<AActor>(FSoftObjectPath(*path)).LoadSynchronous();
-
+	FVector SpawnPos = FVector::ZeroVector;
 	// 部屋を作る
 	for (int numY = 0; numY < MyStatus.RoomCount; numY++) {
 		for (int numX = 0; numX < MyStatus.RoomCount; numX++) {
-
-			FVector SpawnPos = FVector(numX * (MyStatus.AreaSize * 100), numY * (MyStatus.AreaSize * 100), 0);
+			// 生成位置の定義
+			 SpawnPos = FVector(numX * (MyStatus.AreaSize * 100), numY * (MyStatus.AreaSize * 100), 0);
+			// 部屋の設置
 			ARoomData* NewRoom = GetWorld()->SpawnActor<ARoomData>(sc);
 			NewRoom->Init(numY + numX, SpawnPos.X, SpawnPos.Y, MyStatus.AreaSize, MyStatus.AreaSize);
-			NewRoom->SetActorLocation(SpawnPos);
-			NewRoom->InitializeRoom();
-			AreaList.Add(NewRoom);
-
-			//// プレイヤーの初期位置を定義
-			//AStrategyProjCharacter* PlayerCharacter = Cast<AStrategyProjCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-			//if (PlayerCharacter != nullptr) {
-			//	SpawnPos = FVector(NewRoom->MyStatus.Left * 100, NewRoom->MyStatus.Top * 100, 120);
-			//	PlayerCharacter->SetActorLocation(SpawnPos);
-			//}
+			NewRoom->SetActorLocation(SpawnPos);	// 位置調整
+			NewRoom->InitializeRoom();						// 部屋の情報初期化
+			AreaList.Add(NewRoom);							// リストに保存
 		}
 	}
 
@@ -44,20 +39,33 @@ void AMapCreate::CreateMap()
 		if (num < MyStatus.RoomCount * (MyStatus.RoomCount - 1)) {
 			AreaList[num]->CreateRoad(AreaList[num]->MyRoom, AreaList[num + MyStatus.RoomCount]->MyRoom);
 		}
-		AreaList[num]->MyRoom->CheckConnectRoom();
+
+		// 部屋がつながっていないなら削除
+		if (AreaList[num]->MyRoom->CheckConnectRoom()) AreaList[num]->MyRoom = NULL;
 	}
 
 	// 部屋が孤立しないように調整
 	for (int num = 0; num < MyStatus.RoomCount *  MyStatus.RoomCount - 1; num++) {
 		// 部屋が削除されているならリターン
-		if (AreaList[num]->MyRoom == nullptr) return;
-		
-		if (AreaList[num + 1]->MyRoom != nullptr && (num + 1) % MyStatus.RoomCount != 0) AreaList[num]->ConnectRoad(AreaList[num]->MyRoom, AreaList[num + 1]->MyRoom);
+		if (AreaList[num]->MyRoom != nullptr) {
+			if (AreaList[num + 1]->MyRoom != nullptr && (num + 1) % MyStatus.RoomCount != 0) AreaList[num]->ConnectRoad(AreaList[num]->MyRoom, AreaList[num + 1]->MyRoom);
 
-		if (num < MyStatus.RoomCount * (MyStatus.RoomCount - 1) && AreaList[num + MyStatus.RoomCount]->MyRoom != nullptr) {
-			AreaList[num]->ConnectRoad(AreaList[num]->MyRoom, AreaList[num + MyStatus.RoomCount]->MyRoom);
+			if (num < MyStatus.RoomCount * (MyStatus.RoomCount - 1) && AreaList[num + MyStatus.RoomCount]->MyRoom != nullptr) {
+				AreaList[num]->ConnectRoad(AreaList[num]->MyRoom, AreaList[num + MyStatus.RoomCount]->MyRoom);
+			}
 		}
 	}
+
+	// つながっていない部屋を削除
+	for (ARoomData* room : AreaList) {
+		if (room->MyRoom == nullptr) AreaList.Remove(room);
+	}
+
+	// プレイヤーをランダムに配置
+	ABattleCharacter* PlayerCharacter = Cast<ABattleCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	FirstLocation = FMath::RandRange(0, AreaList.Num());
+	SpawnPos = FVector(AreaList[FirstLocation]->GetActorLocation().X, AreaList[FirstLocation]->GetActorLocation().Y, 150.0f);
+	PlayerCharacter->SetActorLocation(SpawnPos);
 }
 
 // 領域の生成

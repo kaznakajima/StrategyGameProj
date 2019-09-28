@@ -45,6 +45,15 @@ void ABattleCharacter::BeginPlay()
 	
 }
 
+// ‘•”õ‚ÌŽÀs
+void ABattleCharacter::EquipActive(UStaticMeshComponent * _EquipMesh, UStaticMeshComponent* _TargetMesh)
+{
+	// ‘•”õˆÊ’u‚ÉˆÚ“®
+	FTransform EquipTrans = _EquipMesh->GetRelativeTransform();
+	_TargetMesh->SetStaticMesh(_EquipMesh->GetStaticMesh());
+	_TargetMesh->SetRelativeTransform(EquipTrans);
+}
+
 void ABattleCharacter::MoveForward(float Value)
 {
 	if ((Controller != NULL) && (Value != 0.0f))

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "CharacterInterface.h"
+#include "Components/StaticMeshComponent.h"
 #include "BattleCharacter.generated.h"
 
 // 戦闘を行うキャラクタークラス
@@ -28,22 +29,26 @@ protected:
 
 	// キャラクターの装備状態
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	EEquipmentState MyState;
+		EEquipmentState MyState;
 
 	// キャラクターのステータス
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	FCharacterStatus MyStatus;
+		FCharacterStatus MyStatus;
 
 	// カメラの回転量
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseTurnRate;
+		float BaseTurnRate;
 
 	// カメラの回転量
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseLookUpRate;
+		float BaseLookUpRate;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	// 装備
+	UFUNCTION(BlueprintCallable, Category = "Equip")
+	void EquipActive(UStaticMeshComponent* _EquipMesh, UStaticMeshComponent* _TargetMesh);
 
 	void MoveForward(float Value);
 
@@ -64,5 +69,4 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	// Cameraの取得
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
-
 };

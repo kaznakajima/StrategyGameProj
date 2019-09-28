@@ -53,7 +53,7 @@ public:
 	void RemainderConnect(ARoomActor* _MyRoom, ARoomActor* _OpponentRoom);
 
 	// 部屋がつながっているかチェック
-	void CheckConnectRoom();
+	bool CheckConnectRoom();
 
 protected:
 	// 部屋の状態を初期化

@@ -43,7 +43,10 @@ public:
 
 protected:
 	// 部屋のリスト
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Room")
 	TArray<ARoomData*> AreaList;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Room")
+	int FirstLocation;
 
 	// ステージを作っていく
 	UFUNCTION(BlueprintCallable)
