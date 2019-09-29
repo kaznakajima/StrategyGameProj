@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleCharacter.h"
+#include "CharacterAIController.h"
 #include "Components/InputComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -54,8 +55,23 @@ void ABattleCharacter::EquipActive(UStaticMeshComponent * _EquipMesh, UStaticMes
 	_TargetMesh->SetRelativeTransform(EquipTrans);
 }
 
+// キャラクターの移動
+void ABattleCharacter::NextMove(FVector _MoveVec)
+{
+	// 自身のControllerの取得
+	ACharacterAIController* MyController = Cast<ACharacterAIController>(GetController());
+
+	// 移動
+	if (MyController != nullptr) {
+		FVector NextLocation = GetActorLocation() + _MoveVec;
+		MyController->MoveToLocation(NextLocation, 5.f, false);
+	}
+}
+
 void ABattleCharacter::MoveForward(float Value)
 {
+	if (IsDebug == false) return;
+
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
 		// find out which way is forward
@@ -70,6 +86,8 @@ void ABattleCharacter::MoveForward(float Value)
 
 void ABattleCharacter::MoveRight(float Value)
 {
+	if (IsDebug == false) return;
+
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
 		// find out which way is right

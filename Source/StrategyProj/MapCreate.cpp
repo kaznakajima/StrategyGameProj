@@ -61,11 +61,7 @@ void AMapCreate::CreateMap()
 		if (room->MyRoom == nullptr) AreaList.Remove(room);
 	}
 
-	// プレイヤーをランダムに配置
-	ABattleCharacter* PlayerCharacter = Cast<ABattleCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-	FirstLocation = FMath::RandRange(0, AreaList.Num());
-	SpawnPos = FVector(AreaList[FirstLocation]->GetActorLocation().X, AreaList[FirstLocation]->GetActorLocation().Y, 150.0f);
-	PlayerCharacter->SetActorLocation(SpawnPos);
+	for (int num = 0; num < MyStatus.UnitCount;num++) UnitSpawn();
 }
 
 // 領域の生成
@@ -78,6 +74,19 @@ void AMapCreate::CreateArea()
 void AMapCreate::CreateRoad()
 {
 
+}
+
+// ユニットの生成
+void AMapCreate::UnitSpawn()
+{
+	FString path = "/Game/Character/MyBattleCharacter.MyBattleCharacter_C";
+	TSubclassOf<class ABattleCharacter> character = TSoftClassPtr<ABattleCharacter>(FSoftObjectPath(*path)).LoadSynchronous();
+
+	int Index = FMath::RandRange(0, AreaList.Num() - 1);
+	ABattleCharacter* Character = GetWorld()->SpawnActor<ABattleCharacter>(character);
+	Character->SpawnDefaultController();
+	FVector SpawnPos = FVector(AreaList[Index]->GetActorLocation().X, AreaList[Index]->GetActorLocation().Y, 150.0f);
+	Character->SetActorLocation(SpawnPos);
 }
 
 // Called when the game starts or when spawned

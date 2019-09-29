@@ -127,6 +127,7 @@ void ARoomActor::RoomImitialize()
 // Called when the game starts or when spawned
 void ARoomActor::BeginPlay()
 {
+
 }
 
 // Called every frame

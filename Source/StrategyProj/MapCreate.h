@@ -19,6 +19,9 @@ struct FMapStatus
 	// 縦軸
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
 	int Height;
+	// 配置するユニット数
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
+	int UnitCount;
 	// 最小の区画サイズ
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
 	int AreaSize;
@@ -55,6 +58,9 @@ protected:
 	void CreateArea();
 	// エリア間の通路を作っていく
 	void CreateRoad();
+
+	// ユニットの生成
+	void UnitSpawn();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

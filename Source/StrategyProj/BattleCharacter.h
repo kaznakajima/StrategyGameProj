@@ -29,36 +29,54 @@ protected:
 
 	// キャラクターの装備状態
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-		EEquipmentState MyState;
+	EEquipmentState MyState;
 
 	// キャラクターのステータス
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-		FCharacterStatus MyStatus;
+	FCharacterStatus MyStatus;
 
 	// カメラの回転量
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-		float BaseTurnRate;
+	float BaseTurnRate;
 
 	// カメラの回転量
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-		float BaseLookUpRate;
+	float BaseLookUpRate;
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	// Debug用(のちに削除)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CharacterStatus")
+	bool IsDebug;
 
 	// 装備
 	UFUNCTION(BlueprintCallable, Category = "Equip")
 	void EquipActive(UStaticMeshComponent* _EquipMesh, UStaticMeshComponent* _TargetMesh);
 
+	// キャラクターの移動
+	UFUNCTION(BlueprintCallable, Category = "CharacterAction")
+	void NextMove(FVector _MoveVec);
+
 	void MoveForward(float Value);
 
 	void MoveRight(float Value);
-
+	
+	// カメラ移動
 	void TurnAtRate(float Rate);
-
+	// カメラ移動
 	void LookUpAtRate(float Rate);
 
-public:	
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:
+
+	// 俯瞰視点かどうか
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+	bool BottomView;
+
+	// 移動したかどうか
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+	bool Moving;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
