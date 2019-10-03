@@ -64,7 +64,7 @@ protected:
 	// カメラ移動
 	void LookUpAtRate(float Rate);
 
-	// Called when the game starts or when spawned
+	// 初回時の処理
 	virtual void BeginPlay() override;
 
 public:
@@ -77,10 +77,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
 	bool Moving;
 
-	// Called every frame
+	// 更新処理
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
+	// インプットのセットアップ
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	// SpringArmの取得

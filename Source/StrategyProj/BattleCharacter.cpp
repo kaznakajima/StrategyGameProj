@@ -62,9 +62,10 @@ void ABattleCharacter::NextMove(FVector _MoveVec)
 	ACharacterAIController* MyController = Cast<ACharacterAIController>(GetController());
 
 	// ˆÚ“®
-	if (MyController != nullptr) {
+	if (MyController != nullptr && Moving == false) {
 		FVector NextLocation = GetActorLocation() + _MoveVec;
 		MyController->MoveToLocation(NextLocation, 5.f, false);
+		Moving = true;
 	}
 }
 

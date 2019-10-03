@@ -1,33 +1,57 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "PlayerControllPawn.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 
 // Sets default values
 APlayerControllPawn::APlayerControllPawn()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	BaseTurnRate = 45.f;
+
+	// SceneComponentのセットアップ
+	DefaultSceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultComponent"));
+	DefaultSceneComponent->SetupAttachment(RootComponent);
+
+	// SpringArmのセットアップ
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom->SetupAttachment(DefaultSceneComponent);
+	CameraBoom->TargetArmLength = 300.0f;
+	CameraBoom->bUsePawnControlRotation = true;
+
+	// Cameraのセットアップ
+	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
+	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	FollowCamera->bUsePawnControlRotation = false;
 }
 
-// Called when the game starts or when spawned
+// 初回処理
 void APlayerControllPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
+// カメラ回転
+void APlayerControllPawn::TurnAtRate(float Rate)
+{
+	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
+}
+
+// 更新処理
 void APlayerControllPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-// Called to bind functionality to input
+// インプットのセットアップ
 void APlayerControllPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	check(PlayerInputComponent);
+	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("TurnRate", this, &APlayerControllPawn::TurnAtRate);
 }
 

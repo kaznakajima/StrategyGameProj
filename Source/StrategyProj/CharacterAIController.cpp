@@ -11,6 +11,6 @@ void ACharacterAIController::OnMoveCompleted(FAIRequestID RequestID, const FPath
 
 	// ˆÚ“®Š®—¹‚µ‚½‚çƒtƒ‰ƒO‚ð—§‚Ä‚é
 	if (MyCharacter != nullptr) {
-		MyCharacter->Moving = true;
+		MyCharacter->Moving = false;
 	}
 }

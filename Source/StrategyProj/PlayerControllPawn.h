@@ -12,6 +12,16 @@ class STRATEGYPROJ_API APlayerControllPawn : public APawn
 {
 	GENERATED_BODY()
 
+	// SceneComponent
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class USceneComponent* DefaultSceneComponent;
+	// SpringArm
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class USpringArmComponent* CameraBoom;
+	// Camera
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	class UCameraComponent* FollowCamera;
+
 public:
 	// Sets default values for this pawn's properties
 	APlayerControllPawn();
@@ -35,11 +45,25 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Status")
 	bool IsView;
 
+	// カメラの回転量
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+	float BaseTurnRate;
+
+	// カメラ移動
+	void TurnAtRate(float Rate);
+
 public:	
-	// Called every frame
+	// 更新処理
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
+	// インプットのセットアップ
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	// SceneComponentの取得
+	FORCEINLINE class USceneComponent* GetSceneComponent() const { return DefaultSceneComponent; }
+	// SpringArmの取得
+	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	// Cameraの取得
+	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 };

@@ -59,6 +59,7 @@ protected:
 	// エリア間の通路を作っていく
 	void CreateRoad();
 
+	UFUNCTION(BlueprintCallable)
 	// ユニットの生成
 	void UnitSpawn();
 

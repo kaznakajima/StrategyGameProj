@@ -80,10 +80,12 @@ void AMapCreate::CreateRoad()
 void AMapCreate::UnitSpawn()
 {
 	FString path = "/Game/Character/MyBattleCharacter.MyBattleCharacter_C";
-	TSubclassOf<class ABattleCharacter> character = TSoftClassPtr<ABattleCharacter>(FSoftObjectPath(*path)).LoadSynchronous();
+	TSubclassOf<class ACharacter> character = TSoftClassPtr<ACharacter>(FSoftObjectPath(*path)).LoadSynchronous();
 
 	int Index = FMath::RandRange(0, AreaList.Num() - 1);
-	ABattleCharacter* Character = GetWorld()->SpawnActor<ABattleCharacter>(character);
+	ACharacter* Character = GetWorld()->SpawnActor<ACharacter>(character);
+	if (Character == nullptr) return;
+
 	Character->SpawnDefaultController();
 	FVector SpawnPos = FVector(AreaList[Index]->GetActorLocation().X, AreaList[Index]->GetActorLocation().Y, 150.0f);
 	Character->SetActorLocation(SpawnPos);
