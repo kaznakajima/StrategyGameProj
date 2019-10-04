@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "CharacterInterface.h"
 #include "Components/StaticMeshComponent.h"
+#include "RoomActor.h"
 #include "BattleCharacter.generated.h"
 
 // 戦闘を行うキャラクタークラス
@@ -35,6 +36,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
 	FCharacterStatus MyStatus;
 
+	// 自身のいる部屋
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+	ARoomActor* CurrentRoom;
+
 	// カメラの回転量
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	float BaseTurnRate;
@@ -53,7 +58,7 @@ protected:
 
 	// キャラクターの移動
 	UFUNCTION(BlueprintCallable, Category = "CharacterAction")
-	void NextMove(FVector _MoveVec);
+	void NextMove(AActor* _TargetActor);
 
 	void MoveForward(float Value);
 

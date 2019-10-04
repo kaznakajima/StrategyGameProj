@@ -39,11 +39,10 @@ ABattleCharacter::ABattleCharacter()
 	FollowCamera->bUsePawnControlRotation = false;
 }
 
-// Called when the game starts or when spawned
+// 初回処理
 void ABattleCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // 装備の実行
@@ -56,15 +55,14 @@ void ABattleCharacter::EquipActive(UStaticMeshComponent * _EquipMesh, UStaticMes
 }
 
 // キャラクターの移動
-void ABattleCharacter::NextMove(FVector _MoveVec)
+void ABattleCharacter::NextMove(AActor* _TargetActor)
 {
 	// 自身のControllerの取得
 	ACharacterAIController* MyController = Cast<ACharacterAIController>(GetController());
 
 	// 移動
 	if (MyController != nullptr && Moving == false) {
-		FVector NextLocation = GetActorLocation() + _MoveVec;
-		MyController->MoveToLocation(NextLocation, 5.f, false);
+		MyController->MoveToActor(_TargetActor, 5.f, false);
 		Moving = true;
 	}
 }

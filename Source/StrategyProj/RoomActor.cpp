@@ -5,10 +5,10 @@
 // コンストラクタ
 ARoomActor::ARoomActor()
 {
-	// メッシュの定義
+	// 大元のメッシュ
 	TileMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Tile"));
 	TileMesh->SetRelativeScale3D(FVector(1.0f, 1.0f, 0.2f));
-	// 四方の通路を子にしていく
+	//------------------四方の通路を子にしていく------------------
 	// 上
 	Aisle_T_Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Aisle_T"));
 	Aisle_T_Mesh->SetupAttachment(TileMesh);
@@ -29,6 +29,13 @@ ARoomActor::ARoomActor()
 	Aisle_R_Mesh->SetupAttachment(TileMesh);
 	Aisle_R_Mesh->SetRelativeLocation(FVector(67.0f, 0.0f, 0.0f));
 	Aisle_R_Mesh->SetRelativeScale3D(FVector(0.35f, 0.35f, 1.0f));
+	//---------------------------------------------------------------
+
+	// 移動目標地点のセットアップ
+	MovePoint = CreateDefaultSubobject<USceneComponent>(TEXT("MovePoint"));
+	MovePoint->SetupAttachment(TileMesh);
+	MovePoint->SetRelativeLocation(FVector(0.0f, 0.0f, 100.0f));
+
 
  	// Tickを適用
 	PrimaryActorTick.bCanEverTick = true;
@@ -124,13 +131,13 @@ void ARoomActor::RoomImitialize()
 	RoomEffect->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 }
 
-// Called when the game starts or when spawned
+// 初回処理
 void ARoomActor::BeginPlay()
 {
 
 }
 
-// Called every frame
+// 更新処理
 void ARoomActor::Tick(float DeltaTime)
 {
 }

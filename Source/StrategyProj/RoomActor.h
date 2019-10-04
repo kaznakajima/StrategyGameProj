@@ -37,6 +37,10 @@ public:
 		class UStaticMeshComponent* Aisle_R_Mesh;
 	//------------------------------------------------------
 
+	// 移動地点用Component
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RoomParts")
+		class USceneComponent* MovePoint;
+
 	// つながっている部屋のリスト
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RoomParts")
 	TArray<ARoomActor*> ConnectRoomList;
@@ -60,11 +64,11 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "RoomAction")
 	void RoomImitialize();
 
-	// Called when the game starts or when spawned
+	// 初回処理
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
+	// 更新処理
 	virtual void Tick(float DeltaTime) override;
 
 	// 部屋のメッシュの取得
@@ -80,5 +84,8 @@ public:
 	// 右
 	FORCEINLINE class UStaticMeshComponent* GetAisle_R_Mesh() const { return Aisle_B_Mesh; }
 	//------------------------------------------------------
+
+	// 移動目標地点の取得
+	FORCEINLINE class USceneComponent* GetMovePoint() const { return MovePoint; }
 
 };
