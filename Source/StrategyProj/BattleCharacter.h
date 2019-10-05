@@ -9,6 +9,9 @@
 #include "RoomActor.h"
 #include "BattleCharacter.generated.h"
 
+// 動的マルチキャストデリゲート(イベントディスパッチャー)の宣言
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterEventDispatcher);
+
 // 戦闘を行うキャラクタークラス
 UCLASS()
 class STRATEGYPROJ_API ABattleCharacter : public ACharacter, public ICharacterInterface
@@ -25,6 +28,10 @@ class STRATEGYPROJ_API ABattleCharacter : public ACharacter, public ICharacterIn
 public:
 	// コンストラクタ
 	ABattleCharacter();
+
+	// EventDispatcher(移動終了イベント)
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Event")
+		FCharacterEventDispatcher MoveEndEvent;
 
 protected:
 
