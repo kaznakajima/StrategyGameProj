@@ -31,9 +31,9 @@ struct FCharacterStatus
 {
 	GENERATED_USTRUCT_BODY()
 
-	// 自身の装備状況
+	// キャラクターの装備状態
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	int MyEquip;
+	EEquipmentState MyState;
 
 	// HP(体力)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")

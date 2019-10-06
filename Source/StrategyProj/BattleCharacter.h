@@ -35,10 +35,6 @@ public:
 
 protected:
 
-	// キャラクターの装備状態
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	EEquipmentState MyState;
-
 	// キャラクターのステータス
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
 	FCharacterStatus MyStatus;
@@ -83,11 +79,15 @@ public:
 
 	// 俯瞰視点かどうか
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	bool BottomView;
+		bool BottomView;
 
 	// 移動したかどうか
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	bool Moving;
+		bool Moving;
+
+	// 移動キャンセルイベント
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
+		void MoveCancel();
 
 	// 更新処理
 	virtual void Tick(float DeltaTime) override;
