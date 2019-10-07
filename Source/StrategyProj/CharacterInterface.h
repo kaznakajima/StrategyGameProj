@@ -35,6 +35,10 @@ struct FCharacterStatus
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
 	EEquipmentState MyState;
 
+	// キャラクター名
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+		FText Name;
+
 	// HP(体力)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
 	int MaxHP;
@@ -45,15 +49,15 @@ struct FCharacterStatus
 
 	// 攻撃力
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	int Power;
+	int STR;
 
 	// 防御力
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	int Defence;
+	int DEF;
 
 	// 回避力
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	int Avoid;
+	int AVO;
 };
 
 // キャラクターインターフェイス

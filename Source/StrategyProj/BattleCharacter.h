@@ -10,7 +10,7 @@
 #include "BattleCharacter.generated.h"
 
 // 動的マルチキャストデリゲート(イベントディスパッチャー)の宣言
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCharacterEventDispatcher);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterEventDispatcher, bool, IsCancel);
 
 // 戦闘を行うキャラクタークラス
 UCLASS()

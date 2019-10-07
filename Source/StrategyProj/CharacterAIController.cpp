@@ -10,8 +10,8 @@ void ACharacterAIController::OnMoveCompleted(FAIRequestID RequestID, const FPath
 	ABattleCharacter* MyCharacter = Cast<ABattleCharacter>(GetPawn());
 
 	// ˆÚ“®Š®—¹‚µ‚½‚çƒtƒ‰ƒO‚ð—§‚Ä‚é
-	if (MyCharacter != nullptr) {
+	if (MyCharacter != nullptr && MyCharacter->Moving) {
 		MyCharacter->Moving = false;
-		MyCharacter->MoveEndEvent.Broadcast();
+		MyCharacter->MoveEndEvent.Broadcast(false);
 	}
 }
