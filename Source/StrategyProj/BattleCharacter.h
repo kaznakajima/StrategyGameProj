@@ -33,6 +33,10 @@ public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Event")
 		FCharacterEventDispatcher MoveEndEvent;
 
+	// 自身の部屋での立ち位置
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+		FVector MyLocation;
+
 protected:
 
 	// キャラクターのステータス

@@ -13,6 +13,18 @@ class AStrategyProjGameMode : public AGameModeBase
 
 public:
 	AStrategyProjGameMode();
+
+	// í“¬‚·‚é‚©‚Ç‚¤‚©
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Battle")
+		bool BattleFlg;
+
+	// í“¬€”õ
+	UFUNCTION(BlueprintCallable, Category = "Battle")
+		void BattlePrepare(AActor* _BattleField, AActor* _Player, AActor* _Enemy);
+
+	// í“¬I—¹
+	UFUNCTION(BlueprintCallable, Category = "Battle")
+		void BattleEnd(ABattleCharacter* _Player, ABattleCharacter* _Enemy);
 };
 
 

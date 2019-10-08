@@ -2,14 +2,38 @@
 
 #include "StrategyProjGameMode.h"
 #include "StrategyProjCharacter.h"
+#include "GameFramework/Actor.h"
+#include "BattleCharacter.h"
+#include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
 
 AStrategyProjGameMode::AStrategyProjGameMode()
 {
-	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter"));
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+}
+
+// 戦闘準備
+void AStrategyProjGameMode::BattlePrepare(AActor* _BattleField, AActor* _Player, AActor* _Enemy)
+{
+	// 戦闘ステージにフォーカス
+	APlayerController* MyController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	MyController->SetViewTargetWithBlend(_BattleField, 1.0f);
+
+	FVector PlayerLocation = _BattleField->GetActorLocation() + FVector(80.0f, 0.0f, 100.0f);
+	_Player->SetActorLocation(PlayerLocation);
+	FVector EnemyLocation = _BattleField->GetActorLocation() + FVector(-80.0f, 0.0f, 100.0f);
+	_Enemy->SetActorLocation(EnemyLocation);
+
+	BattleFlg = true;
+}
+
+// 戦闘終了
+void AStrategyProjGameMode::BattleEnd(ABattleCharacter * _Player, ABattleCharacter * _Enemy)
+{
+	_Player->SetActorLocation(_Player->MyLocation);
+	_Enemy->SetActorLocation(_Enemy->MyLocation);
 }
