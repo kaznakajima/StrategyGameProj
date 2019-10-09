@@ -10,10 +10,14 @@
 
 // 
 USTRUCT(BlueprintType)
-struct FMyData : public FTableRowBase
+struct FCharacterData : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 public:
+
+	// 所属チーム
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+		ECharacterTeam MyTeam;
 
 	// キャラクターの装備状態
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
@@ -49,6 +53,10 @@ struct FCharacterDataAssetRecord
 {
 	GENERATED_USTRUCT_BODY()
 public:
+
+	// 所属チーム
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+		ECharacterTeam MyTeam;
 
 	// キャラクターの装備状態
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")

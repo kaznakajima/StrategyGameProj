@@ -40,6 +40,32 @@ ABattleCharacter::ABattleCharacter()
 	FollowCamera->bUsePawnControlRotation = false;
 }
 
+// ステータスの初期化
+void ABattleCharacter::InitializeStatus(FName _RowName)
+{
+	// データの抽出
+	auto record = DataTable->FindRow<FCharacterData>(_RowName, FString());
+
+	// 値の設定
+	MyStatus.MyTeam = record->MyTeam;
+	MyStatus.MyState = record->MyState;
+	MyStatus.Name = record->Name;
+	MyStatus.MaxHP = record->MaxHP;
+	MyStatus.MaxSP = record->MaxSP;
+	MyStatus.STR = record->Power;
+	MyStatus.DEF = record->Defence;
+	MyStatus.AVO = record->Avoid;
+}
+
+// 自分がプレイヤーのチームかどうか返す
+bool ABattleCharacter::GetIsPlayerTeam()
+{
+	// プレイヤーチームなら true
+	if (MyStatus.MyTeam == ECharacterTeam::Team1) return true;
+
+	return false;
+}
+
 // 初回処理
 void ABattleCharacter::BeginPlay()
 {

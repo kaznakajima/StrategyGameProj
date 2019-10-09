@@ -14,6 +14,14 @@ class STRATEGYPROJ_API UCharacterInterface : public UInterface
 
 // キャラクターの装備状態
 UENUM(BlueprintType)
+enum class ECharacterTeam : uint8
+{
+	Team1		UMETA(DisplayName = "PlayerTeam"),
+	Team2		UMETA(DisplayName = "EnemyTeam")
+};
+
+// キャラクターの装備状態
+UENUM(BlueprintType)
 enum class EEquipmentState : uint8
 {
 	NONE = 0						UMETA(DisplayName = "None"),
@@ -31,9 +39,13 @@ struct FCharacterStatus
 {
 	GENERATED_USTRUCT_BODY()
 
+	// 所属チーム
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+		ECharacterTeam MyTeam;
+
 	// キャラクターの装備状態
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	EEquipmentState MyState;
+		EEquipmentState MyState;
 
 	// キャラクター名
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")

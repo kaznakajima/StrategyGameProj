@@ -45,7 +45,7 @@ void AMapCreate::CreateMap()
 
 	// 部屋が孤立しないように調整
 	for (int num = 0; num < MyStatus.RoomCount *  MyStatus.RoomCount - 1; num++) {
-		// 部屋が削除されているならリターン
+		// 部屋が削除されているなら処理を行わない
 		if (AreaList[num]->MyRoom != nullptr) {
 			if (AreaList[num + 1]->MyRoom != nullptr && (num + 1) % MyStatus.RoomCount != 0) AreaList[num]->ConnectRoad(AreaList[num]->MyRoom, AreaList[num + 1]->MyRoom);
 
@@ -60,7 +60,7 @@ void AMapCreate::CreateMap()
 		if (room->MyRoom == nullptr) AreaList.Remove(room);
 	}
 
-	for (int num = 0; num < MyStatus.UnitCount;num++) UnitSpawn();
+	for (int num = 0; num < MyStatus.UnitCount;num++) UnitSpawn(num);
 }
 
 // 領域の生成
@@ -76,27 +76,34 @@ void AMapCreate::CreateRoad()
 }
 
 // ユニットの生成
-void AMapCreate::UnitSpawn()
+void AMapCreate::UnitSpawn(int _UnitNum)
 {
 	FString path = "/Game/Character/MyBattleCharacter.MyBattleCharacter_C";
-	TSubclassOf<class ACharacter> character = TSoftClassPtr<ACharacter>(FSoftObjectPath(*path)).LoadSynchronous();
+	TSubclassOf<class ABattleCharacter> character = TSoftClassPtr<ABattleCharacter>(FSoftObjectPath(*path)).LoadSynchronous();
 
 	int Index = FMath::RandRange(0, AreaList.Num() - 1);
-	ACharacter* Character = GetWorld()->SpawnActor<ACharacter>(character);
+	ABattleCharacter* Character = GetWorld()->SpawnActor<ABattleCharacter>(character);
 	if (Character == nullptr) return;
 
 	Character->SpawnDefaultController();
 	FVector SpawnPos = FVector(AreaList[Index]->GetActorLocation().X, AreaList[Index]->GetActorLocation().Y, 150.0f);
 	Character->SetActorLocation(SpawnPos);
+	// 味方と敵判別
+	if (_UnitNum / 2 < 1) {
+		Character->InitializeStatus(FName("EnemyNormal"));
+	}
+	else {
+		Character->InitializeStatus(FName("PlayerNormal"));
+	}
 }
 
-// Called when the game starts or when spawned
+// 初回処理
 void AMapCreate::BeginPlay()
 {
 	CreateMap();
 }
 
-// Called every frame
+// 更新処理
 void AMapCreate::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

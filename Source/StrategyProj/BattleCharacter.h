@@ -7,6 +7,7 @@
 #include "CharacterInterface.h"
 #include "Components/StaticMeshComponent.h"
 #include "RoomActor.h"
+#include "BattleCharacterData.h"
 #include "BattleCharacter.generated.h"
 
 // 動的マルチキャストデリゲート(イベントディスパッチャー)の宣言
@@ -33,51 +34,67 @@ public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Event")
 		FCharacterEventDispatcher MoveEndEvent;
 
+	// ステータスの初期化
+	UFUNCTION(BlueprintCallable, Category = "Character")
+		void InitializeStatus(FName _RowName);
+
 	// 自身の部屋での立ち位置
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
 		FVector MyLocation;
 
+	// 対戦する敵キャラクター
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+		ABattleCharacter* BattleEnemy;
+
+	// 自分がプレイヤーのチームかどうか
+	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "Character")
+		bool GetIsPlayerTeam();
+
 protected:
+
+	// データテーブル
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "EditData")
+		UDataTable* DataTable;
 
 	// キャラクターのステータス
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	FCharacterStatus MyStatus;
+		FCharacterStatus MyStatus;
 
 	// 自身のいる部屋
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	ARoomActor* CurrentRoom;
+		ARoomActor* CurrentRoom;
 
 	// カメラの回転量
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseTurnRate;
+		float BaseTurnRate;
 
 	// カメラの回転量
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseLookUpRate;
+		float BaseLookUpRate;
 
 	// Debug用(のちに削除)
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "CharacterStatus")
-	bool IsDebug;
+		bool IsDebug;
 
 	// 装備
 	UFUNCTION(BlueprintCallable, Category = "Equip")
-	void EquipActive(UStaticMeshComponent* _EquipMesh, UStaticMeshComponent* _TargetMesh);
+		void EquipActive(UStaticMeshComponent* _EquipMesh, UStaticMeshComponent* _TargetMesh);
 
 	// キャラクターの移動
 	UFUNCTION(BlueprintCallable, Category = "CharacterAction")
-	void NextMove(AActor* _TargetActor);
+		void NextMove(AActor* _TargetActor);
 
-	void MoveForward(float Value);
+		void MoveForward(float Value);
 
-	void MoveRight(float Value);
+		void MoveRight(float Value);
 	
 	// カメラ移動
-	void TurnAtRate(float Rate);
+		void TurnAtRate(float Rate);
 	// カメラ移動
-	void LookUpAtRate(float Rate);
+		void LookUpAtRate(float Rate);
 
 	// 初回時の処理
-	virtual void BeginPlay() override;
+		virtual void BeginPlay() override;
 
 public:
 
@@ -94,10 +111,10 @@ public:
 		void MoveCancel();
 
 	// 更新処理
-	virtual void Tick(float DeltaTime) override;
+		virtual void Tick(float DeltaTime) override;
 
 	// インプットのセットアップ
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+		virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	// SpringArmの取得
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }

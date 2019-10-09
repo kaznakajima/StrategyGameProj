@@ -61,7 +61,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	// ƒ†ƒjƒbƒg‚Ì¶¬
-	void UnitSpawn();
+	void UnitSpawn(int _UnitNum);
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

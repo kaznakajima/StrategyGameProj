@@ -7,7 +7,7 @@ void UBattleCharacterData::Import()
 {
 #if WITH_EDITORONLY_DATA
 	if (!DataTable ||
-		!DataTable->GetRowStruct()->IsChildOf(FMyData::StaticStruct()))
+		!DataTable->GetRowStruct()->IsChildOf(FCharacterData::StaticStruct()))
 	{
 		return;
 	}
@@ -22,10 +22,11 @@ void UBattleCharacterData::Import()
 	for (int i = 0; i < Names.Num(); i++)
 	{
 		// データの抽出
-		auto record = DataTable->FindRow<FMyData>(Names[i], FString());
+		auto record = DataTable->FindRow<FCharacterData>(Names[i], FString());
 
 		// 値の設定
 		FCharacterDataAssetRecord asset;
+		asset.MyTeam = record->MyTeam;
 		asset.MyState = record->MyState;
 		asset.Name = FText::FromName(Names[i]);
 		asset.MaxHP = record->MaxHP;
