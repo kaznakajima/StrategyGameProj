@@ -3,9 +3,10 @@
 #include "BattleCharacter.h"
 #include "CharacterAIController.h"
 #include "Components/InputComponent.h"
-#include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
+#include "Components/SceneCaptureComponent2D.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Controller.h"
 
@@ -38,6 +39,10 @@ ABattleCharacter::ABattleCharacter()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+	// SceneCapture2DComponentのセットアップ
+	CaptureCamera = CreateDefaultSubobject<USceneCaptureComponent2D>(TEXT("CaptureCamera"));
+	CaptureCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 }
 
 // ステータスの初期化

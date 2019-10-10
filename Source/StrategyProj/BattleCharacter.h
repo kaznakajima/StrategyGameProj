@@ -21,14 +21,18 @@ class STRATEGYPROJ_API ABattleCharacter : public ACharacter, public ICharacterIn
 
 	// SpringArm
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
+		class USpringArmComponent* CameraBoom;
 	// Camera
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
+		class UCameraComponent* FollowCamera;
 
 public:
 	// コンストラクタ
 	ABattleCharacter();
+
+	// SceneCapture
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+		class USceneCaptureComponent2D* CaptureCamera;
 
 	// EventDispatcher(移動終了イベント)
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Event")
@@ -110,6 +114,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
 		void MoveCancel();
 
+	// 戦闘準備イベント
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
+		void BattlePrepare();
+
 	// 更新処理
 		virtual void Tick(float DeltaTime) override;
 
@@ -120,4 +128,6 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	// Cameraの取得
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	// SceneCaptureの取得
+	FORCEINLINE class USceneCaptureComponent2D* GetCaptureCamera() const { return CaptureCamera; }
 };
