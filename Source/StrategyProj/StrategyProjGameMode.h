@@ -20,7 +20,7 @@ public:
 
 	// í“¬€”õ
 	UFUNCTION(BlueprintCallable, Category = "Battle")
-		void BattlePrepare(AActor* _BattleField, AActor* _Player, AActor* _Enemy);
+		void BattleCharacterSetting(AActor* _BattleField, AActor* _Player, AActor* _Enemy);
 
 	// í“¬I—¹
 	UFUNCTION(BlueprintCallable, Category = "Battle")

@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "BattleCharacter.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "UObject/ConstructorHelpers.h"
 
 AStrategyProjGameMode::AStrategyProjGameMode()
@@ -17,18 +18,25 @@ AStrategyProjGameMode::AStrategyProjGameMode()
 }
 
 // 戦闘準備
-void AStrategyProjGameMode::BattlePrepare(AActor* _BattleField, AActor* _Player, AActor* _Enemy)
+void AStrategyProjGameMode::BattleCharacterSetting(AActor* _BattleField, AActor* _Player, AActor* _Enemy)
 {
 	// 戦闘ステージにフォーカス
 	APlayerController* MyController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	MyController->SetViewTargetWithBlend(_BattleField, 1.0f);
+	MyController->SetViewTargetWithBlend(_BattleField, 0.0f);
 
+	// Playerの設定
 	FVector PlayerLocation = _BattleField->GetActorLocation() + FVector(80.0f, 0.0f, 100.0f);
 	_Player->SetActorLocation(PlayerLocation);
+
+	// Enemyの設定
 	FVector EnemyLocation = _BattleField->GetActorLocation() + FVector(-80.0f, 0.0f, 100.0f);
 	_Enemy->SetActorLocation(EnemyLocation);
 
-	BattleFlg = true;
+	// 向かい合わせる
+	FRotator PlayerRotate = UKismetMathLibrary::FindLookAtRotation(_Player->GetActorLocation(), _Enemy->GetActorLocation());
+	_Player->SetActorRotation(PlayerRotate);
+	FRotator EnemyRotate = UKismetMathLibrary::FindLookAtRotation(_Enemy->GetActorLocation(), _Player->GetActorLocation());
+	_Enemy->SetActorRotation(EnemyRotate);
 }
 
 // 戦闘終了
@@ -36,4 +44,10 @@ void AStrategyProjGameMode::BattleEnd(ABattleCharacter * _Player, ABattleCharact
 {
 	_Player->SetActorLocation(_Player->MyLocation);
 	_Enemy->SetActorLocation(_Enemy->MyLocation);
+
+	// 向かい合わせる
+	FRotator PlayerRotate = UKismetMathLibrary::FindLookAtRotation(_Player->GetActorLocation(), _Enemy->GetActorLocation());
+	_Player->SetActorRotation(PlayerRotate);
+	FRotator EnemyRotate = UKismetMathLibrary::FindLookAtRotation(_Enemy->GetActorLocation(), _Player->GetActorLocation());
+	_Enemy->SetActorRotation(EnemyRotate);
 }
