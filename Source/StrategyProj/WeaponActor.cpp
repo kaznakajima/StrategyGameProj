@@ -13,3 +13,16 @@ AWeaponActor::AWeaponActor()
 	WeaponMesh->SetupAttachment(SceneComponent);
 }
 
+// ステータスの初期化
+void AWeaponActor::InitializeStatus(FName _RowName)
+{
+	// データの抽出
+	auto record = DataTable->FindRow<FWeaponStatusData>(_RowName, FString());
+
+	// 値の設定
+	MyStatus.HP= record->HP;
+	MyStatus.SP = record->SP;
+	MyStatus.STR = record->STR;
+	MyStatus.DEF = record->DEF;
+	MyStatus.AVO = record->AVO;
+}

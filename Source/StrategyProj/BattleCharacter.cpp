@@ -78,23 +78,22 @@ void ABattleCharacter::BeginPlay()
 }
 
 // 装備の実行
-void ABattleCharacter::EquipActive(UStaticMeshComponent * _EquipMesh, UStaticMeshComponent* _TargetMesh)
+void ABattleCharacter::EquipActive(UStaticMeshComponent * _EquipMesh, UStaticMeshComponent* _TargetMesh, FTransform _EquipTransform)
 {
 	// 装備位置に移動
-	FTransform EquipTrans = _EquipMesh->GetRelativeTransform();
 	_TargetMesh->SetStaticMesh(_EquipMesh->GetStaticMesh());
-	_TargetMesh->SetRelativeTransform(EquipTrans);
+	_TargetMesh->SetRelativeTransform(_EquipTransform);
 }
 
 // キャラクターの移動
-void ABattleCharacter::NextMove(AActor* _TargetActor)
+void ABattleCharacter::NextMove(AActor* _TargetActor, float _Range)
 {
 	// 自身のControllerの取得
 	ACharacterAIController* MyController = Cast<ACharacterAIController>(GetController());
 
 	// 移動
 	if (MyController != nullptr && Moving == false) {
-		MyController->MoveToActor(_TargetActor, 5.f, false);
+		MyController->MoveToActor(_TargetActor, _Range, false);
 		Moving = true;
 	}
 }

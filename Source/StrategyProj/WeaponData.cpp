@@ -7,7 +7,7 @@ void UWeaponData::Import()
 {
 #if WITH_EDITORONLY_DATA
 	if (!DataTable ||
-		!DataTable->GetRowStruct()->IsChildOf(FWeaponTable::StaticStruct()))
+		!DataTable->GetRowStruct()->IsChildOf(FWeaponStatusData::StaticStruct()))
 	{
 		return;
 	}
@@ -22,10 +22,10 @@ void UWeaponData::Import()
 	for (int i = 0; i < Names.Num(); i++)
 	{
 		// データの抽出
-		auto record = DataTable->FindRow<FWeaponTable>(Names[i], FString());
+		auto record = DataTable->FindRow<FWeaponStatusData>(Names[i], FString());
 
 		// 値の設定
-		FWeaponStatusData asset;
+		FWeaponDataAssetRecord asset;
 		asset.HP = record->HP;
 		asset.SP = record->SP;
 		asset.STR = record->STR;

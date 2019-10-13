@@ -25,11 +25,11 @@ void AStrategyProjGameMode::BattleCharacterSetting(AActor* _BattleField, AActor*
 	MyController->SetViewTargetWithBlend(_BattleField, 0.0f);
 
 	// Player‚Ìİ’è
-	FVector PlayerLocation = _BattleField->GetActorLocation() + FVector(80.0f, 0.0f, 100.0f);
+	FVector PlayerLocation = _BattleField->GetActorLocation() + FVector(200.0f, 0.0f, 100.0f);
 	_Player->SetActorLocation(PlayerLocation);
 
 	// Enemy‚Ìİ’è
-	FVector EnemyLocation = _BattleField->GetActorLocation() + FVector(-80.0f, 0.0f, 100.0f);
+	FVector EnemyLocation = _BattleField->GetActorLocation() + FVector(-200.0f, 0.0f, 100.0f);
 	_Enemy->SetActorLocation(EnemyLocation);
 
 	// Œü‚©‚¢‡‚í‚¹‚é

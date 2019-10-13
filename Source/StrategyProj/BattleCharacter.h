@@ -11,7 +11,7 @@
 #include "BattleCharacter.generated.h"
 
 // 動的マルチキャストデリゲート(イベントディスパッチャー)の宣言
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterEventDispatcher, bool, IsCancel);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterMoveEvent, bool, IsCancel);
 
 // 戦闘を行うキャラクタークラス
 UCLASS()
@@ -36,7 +36,7 @@ public:
 
 	// EventDispatcher(移動終了イベント)
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Event")
-		FCharacterEventDispatcher MoveEndEvent;
+		FCharacterMoveEvent MoveEndEvent;
 
 	// ステータスの初期化
 	UFUNCTION(BlueprintCallable, Category = "Character")
@@ -53,6 +53,10 @@ public:
 	// 自分がプレイヤーのチームかどうか
 	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "Character")
 		bool GetIsPlayerTeam();
+
+	// バトル中かどうか
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+		bool IsBattle;
 
 protected:
 
@@ -82,11 +86,11 @@ protected:
 
 	// 装備
 	UFUNCTION(BlueprintCallable, Category = "Equip")
-		void EquipActive(UStaticMeshComponent* _EquipMesh, UStaticMeshComponent* _TargetMesh);
+		void EquipActive(UStaticMeshComponent* _EquipMesh, UStaticMeshComponent* _TargetMesh, FTransform _EquipTransform);
 
 	// キャラクターの移動
 	UFUNCTION(BlueprintCallable, Category = "CharacterAction")
-		void NextMove(AActor* _TargetActor);
+		void NextMove(AActor* _TargetActor, float _Range);
 
 		void MoveForward(float Value);
 
@@ -117,6 +121,10 @@ public:
 	// 戦闘準備イベント
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
 		void BattlePrepare();
+
+	// 戦闘準備イベント
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
+		void ActionEvent();
 
 	// 更新処理
 		virtual void Tick(float DeltaTime) override;

@@ -8,7 +8,7 @@
 #include "WeaponData.generated.h"
 
 USTRUCT(BlueprintType)
-struct FWeaponTable : public FTableRowBase
+struct FWeaponStatusData : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -36,7 +36,7 @@ public:
 };
 
 USTRUCT(BlueprintType)
-struct FWeaponStatusData
+struct FWeaponDataAssetRecord
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -80,5 +80,5 @@ public:
 
 	// データリスト
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-		TArray<FWeaponStatusData> Data;
+		TArray<FWeaponDataAssetRecord> Data;
 };

@@ -24,13 +24,23 @@ enum class ECharacterTeam : uint8
 UENUM(BlueprintType)
 enum class EEquipmentState : uint8
 {
-	NONE = 0						UMETA(DisplayName = "None"),
-	SWORD = 1					UMETA(DisplayName = "Sword"),
-	DOUBLE_SWORD = 2		UMETA(DisplayName = "Double_Sword"),
+	NONE = 0						UMETA(DisplayName = "NONE"),
+	SWORD = 1					UMETA(DisplayName = "SWORD"),
+	DOUBLE_SWORD = 2		UMETA(DisplayName = "DOUBLE_SWORD"),
 	SHILD = 4						UMETA(DisplayName = "SHILD"),
-	SWORD_SHILD = 8		UMETA(DisplayName = "Sword_Shild"),
-	MAGICWAND = 16			UMETA(DisplayName = "MagicWand"),
+	SWORD_SHILD = 8		UMETA(DisplayName = "SWORD_SHILD"),
+	MAGICWAND = 16			UMETA(DisplayName = "MAGICWAND"),
 	BOW = 32						UMETA(DisplayName = "BOW"),
+};
+
+// 戦闘時のアクション
+UENUM(BlueprintType)
+enum class EBattleState : uint8
+{
+	ATTACK			UMETA(DisplayName = "ATTACK"),
+	GARD			UMETA(DisplayNama = "GARD"),
+	AVOID			UMETA(DisplayName = "AVOID"),
+	SKILL			UMETA(DisplayName = "SKILL"),
 };
 
 // キャラクターステータス
@@ -47,29 +57,33 @@ struct FCharacterStatus
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
 		EEquipmentState MyState;
 
+	// キャラクターの装備状態
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+		EBattleState BattleState;
+
 	// キャラクター名
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
 		FText Name;
 
 	// HP(体力)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	int MaxHP;
+		int MaxHP;
 
 	// SP(スキルポイント)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	int MaxSP;
+		int MaxSP;
 
 	// 攻撃力
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	int STR;
+		int STR;
 
 	// 防御力
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	int DEF;
+		int DEF;
 
 	// 回避力
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-	int AVO;
+		int AVO;
 };
 
 // キャラクターインターフェイス

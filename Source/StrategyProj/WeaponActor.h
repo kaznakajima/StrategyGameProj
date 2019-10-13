@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "WeaponInterface.h"
+#include "WeaponData.h"
 #include "WeaponActor.generated.h"
 
 UCLASS()
@@ -26,4 +27,14 @@ public:
 	// 武器のパラメータ
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
 		FWeaponStatus MyStatus;
+
+protected:
+	
+	// データテーブル
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "EditData")
+		UDataTable* DataTable;
+
+	// ステータスの初期化
+	UFUNCTION(BlueprintCallable, Category = "Status")
+		void InitializeStatus(FName _RowName);
 };
