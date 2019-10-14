@@ -5,7 +5,13 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
+#include "BattleCharacter.h"
 #include "BattleStage.generated.h"
+
+// 動的マルチキャストデリゲート(イベントディスパッチャー)の宣言
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FFirstCharacterEvent);
+// 動的マルチキャストデリゲート(イベントディスパッチャー)の宣言
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLastCharacterEvent);
 
 UCLASS()
 class STRATEGYPROJ_API ABattleStage : public AActor
@@ -22,6 +28,12 @@ public:
 	// Camera
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* FollowCamera;
+	
+	// SceneCapture
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+		class USceneCaptureComponent2D* P_CaptureCamera; 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+		class USceneCaptureComponent2D* E_CaptureCamera;
 
 	// RootComponent
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RoomParts")
@@ -30,6 +42,25 @@ public:
 	// メインタイル
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RoomParts")
 		class UStaticMeshComponent* MainTile;
+
+	// EventDispatcher(先攻キャラクターイベント)
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Event")
+		FFirstCharacterEvent FirstCharacterEvent;
+	// EventDispatcher(後攻キャラクターイベント)
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Event")
+		FLastCharacterEvent LastCharacterEvent;
+
+	// 先攻のキャラクター
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RoomParts")
+		ABattleCharacter* FirstCharacter;
+
+	// 後攻のキャラクター
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RoomParts")
+		ABattleCharacter* LastCharacter;
+
+	// CaptureCameraで撮影
+	UFUNCTION(Blueprintcallable, Category = "CameraAction")
+		void Capture();
 
 protected:
 	// 初回処理
@@ -46,7 +77,9 @@ public:
 
 	// RootComponentの取得
 	FORCEINLINE class USceneComponent* GetRoot() const { return Root; }
-
 	// メインタイルの取得
 	FORCEINLINE class UStaticMeshComponent* GetMainTile() const { return MainTile; }
+	// SceneCaptureの取得
+	FORCEINLINE class USceneCaptureComponent2D* Get1PCaptureCamera() const { return P_CaptureCamera; }
+	FORCEINLINE class USceneCaptureComponent2D* Get2PCaptureCamera() const { return E_CaptureCamera; }
 };

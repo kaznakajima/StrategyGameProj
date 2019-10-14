@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "BattleStage.h"
 #include "StrategyProjGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -18,13 +19,21 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Battle")
 		bool BattleFlg;
 
+	// バトル用ステージ
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Battle")
+		ABattleStage* BattleStage;
+
 	// 戦闘準備
 	UFUNCTION(BlueprintCallable, Category = "Battle")
-		void BattleCharacterSetting(AActor* _BattleField, AActor* _Player, AActor* _Enemy);
+		void BattleCharacterSetting(AActor* _Player, AActor* _Enemy);
 
 	// 戦闘終了
 	UFUNCTION(BlueprintCallable, Category = "Battle")
 		void BattleEnd(ABattleCharacter* _Player, ABattleCharacter* _Enemy);
+
+	// UI生成イベント
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
+		void BattleUICreate();
 };
 
 

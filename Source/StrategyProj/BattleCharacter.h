@@ -67,6 +67,12 @@ protected:
 	// キャラクターのステータス
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
 		FCharacterStatus MyStatus;
+	// 現在のHP
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+		float CurrentHP;
+	// 現在のSP
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+		float CurrentSP;
 
 	// 自身のいる部屋
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
@@ -122,9 +128,13 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
 		void BattlePrepare();
 
-	// 戦闘準備イベント
+	// 戦闘イベント
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
 		void ActionEvent();
+
+	// 戦闘アクション開始イベント
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
+		void ActionMove(EBattleState _BattleState);
 
 	// 更新処理
 		virtual void Tick(float DeltaTime) override;

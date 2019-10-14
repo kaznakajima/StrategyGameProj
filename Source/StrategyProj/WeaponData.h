@@ -16,11 +16,11 @@ public:
 
 	// HP(体力)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-		int HP;
+		float HP;
 
 	// SP(スキルポイント)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-		int SP;
+		float SP;
 
 	// 攻撃力
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
@@ -44,11 +44,11 @@ public:
 
 	// HP(体力)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-		int HP;
+		float HP;
 
 	// SP(スキルポイント)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-		int SP;
+		float SP;
 
 	// 攻撃力
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")

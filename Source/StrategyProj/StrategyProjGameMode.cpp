@@ -18,18 +18,22 @@ AStrategyProjGameMode::AStrategyProjGameMode()
 }
 
 // 戦闘準備
-void AStrategyProjGameMode::BattleCharacterSetting(AActor* _BattleField, AActor* _Player, AActor* _Enemy)
+void AStrategyProjGameMode::BattleCharacterSetting(AActor* _Player, AActor* _Enemy)
 {
 	// 戦闘ステージにフォーカス
 	APlayerController* MyController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	MyController->SetViewTargetWithBlend(_BattleField, 0.0f);
+	MyController->SetViewTargetWithBlend(BattleStage, 0.0f);
+
+	// 先攻、後攻の設定
+	BattleStage->FirstCharacter = Cast<ABattleCharacter>(_Player);
+	BattleStage->LastCharacter = Cast<ABattleCharacter>(_Enemy);
 
 	// Playerの設定
-	FVector PlayerLocation = _BattleField->GetActorLocation() + FVector(200.0f, 0.0f, 100.0f);
+	FVector PlayerLocation = BattleStage->GetActorLocation() + FVector(-200.0f, 0.0f, 100.0f);
 	_Player->SetActorLocation(PlayerLocation);
 
 	// Enemyの設定
-	FVector EnemyLocation = _BattleField->GetActorLocation() + FVector(-200.0f, 0.0f, 100.0f);
+	FVector EnemyLocation = BattleStage->GetActorLocation() + FVector(200.0f, 0.0f, 100.0f);
 	_Enemy->SetActorLocation(EnemyLocation);
 
 	// 向かい合わせる
@@ -37,6 +41,9 @@ void AStrategyProjGameMode::BattleCharacterSetting(AActor* _BattleField, AActor*
 	_Player->SetActorRotation(PlayerRotate);
 	FRotator EnemyRotate = UKismetMathLibrary::FindLookAtRotation(_Enemy->GetActorLocation(), _Player->GetActorLocation());
 	_Enemy->SetActorRotation(EnemyRotate);
+
+	// CaptureCameraで撮影
+	BattleStage->Capture();
 }
 
 // 戦闘終了

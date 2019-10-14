@@ -56,7 +56,9 @@ void ABattleCharacter::InitializeStatus(FName _RowName)
 	MyStatus.MyState = record->MyState;
 	MyStatus.Name = record->Name;
 	MyStatus.MaxHP = record->MaxHP;
+	CurrentHP = MyStatus.MaxHP;
 	MyStatus.MaxSP = record->MaxSP;
+	CurrentSP = MyStatus.MaxSP;
 	MyStatus.STR = record->Power;
 	MyStatus.DEF = record->Defence;
 	MyStatus.AVO = record->Avoid;

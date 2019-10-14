@@ -20,11 +20,11 @@ struct FWeaponStatus
 
 	// HPï‚ê≥
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-		int HP;
+		float HP;
 
 	// SPï‚ê≥
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-		int SP;
+		float SP;
 
 	// çUåÇóÕï‚ê≥
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
