@@ -24,13 +24,14 @@ enum class ECharacterTeam : uint8
 UENUM(BlueprintType)
 enum class EEquipmentState : uint8
 {
-	NONE = 0						UMETA(DisplayName = "NONE"),
-	SWORD = 1					UMETA(DisplayName = "SWORD"),
-	DOUBLE_SWORD = 2		UMETA(DisplayName = "DOUBLE_SWORD"),
-	SHILD = 4						UMETA(DisplayName = "SHILD"),
-	SWORD_SHILD = 8		UMETA(DisplayName = "SWORD_SHILD"),
-	MAGICWAND = 16			UMETA(DisplayName = "MAGICWAND"),
-	BOW = 32						UMETA(DisplayName = "BOW"),
+	NONE = 0							UMETA(DisplayName = "NONE"),
+	SWORD = 1						UMETA(DisplayName = "SWORD"),
+	DOUBLE_SWORD = 2			UMETA(DisplayName = "DOUBLE_SWORD"),
+	TWOHAND_SWORD = 4		UMETA(DisplayName = "TWOHAND_SWORD"),
+	SHILD = 8							UMETA(DisplayName = "SHILD"),
+	SWORD_SHILD = 16			UMETA(DisplayName = "SWORD_SHILD"),
+	MAGICWAND = 32				UMETA(DisplayName = "MAGICWAND"),
+	BOW = 64							UMETA(DisplayName = "BOW"),
 };
 
 // êÌì¨éûÇÃÉAÉNÉVÉáÉì
