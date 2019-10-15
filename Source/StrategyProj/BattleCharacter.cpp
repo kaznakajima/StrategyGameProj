@@ -7,6 +7,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/SceneCaptureComponent2D.h"
+#include "GameFramework/DamageType.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Controller.h"
 
@@ -62,6 +63,37 @@ void ABattleCharacter::InitializeStatus(FName _RowName)
 	MyStatus.STR = record->Power;
 	MyStatus.DEF = record->Defence;
 	MyStatus.AVO = record->Avoid;
+}
+
+// ダメージイベント
+void ABattleCharacter::OnDamage_Implementation(AActor * _actor, float _def)
+{
+	AController* PlayerController = GetController();
+
+	// ダメージ計算
+	float damage = MyStatus.STR - _def;
+
+	// ダメージイベントの取得
+	TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
+	FDamageEvent DamageEvent(ValidDamageTypeClass);
+
+	// ダメージ処理
+	_actor->TakeDamage(damage, DamageEvent, PlayerController, this);
+}
+
+// コリジョン有効化
+void ABattleCharacter::OnUseCollision_Implementation(UPrimitiveComponent * Col)
+{
+	// コリジョンが存在するなら有効化
+	if (Col != nullptr) Col->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+}
+
+// コリジョン無効化
+void ABattleCharacter::OnUnUseCollision_Implementation(UPrimitiveComponent * Col_1, UPrimitiveComponent * Col_2)
+{
+	// コリジョンが存在するなら無効化
+	if (Col_1 != nullptr) Col_1->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	if (Col_2 != nullptr)Col_2->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 // 自分がプレイヤーのチームかどうか返す

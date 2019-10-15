@@ -42,6 +42,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Character")
 		void InitializeStatus(FName _RowName);
 
+	// ダメージイベント
+	void OnDamage_Implementation(AActor* actor, float defence) override;
+
+	// コリジョン有効化
+	void OnUseCollision_Implementation(class UPrimitiveComponent* Col) override;
+
+	// コリジョン無効化
+	void OnUnUseCollision_Implementation(class UPrimitiveComponent* Col_1, class UPrimitiveComponent* Col_2) override;
+
 	// 自身の部屋での立ち位置
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
 		FVector MyLocation;

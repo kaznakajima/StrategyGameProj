@@ -93,5 +93,20 @@ class STRATEGYPROJ_API ICharacterInterface
 	GENERATED_IINTERFACE_BODY()
 
 public:
+	// コリジョン有効化
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "InterfaceAction")
+		void OnUseCollision(class UPrimitiveComponent* Col);
+
+	// コリジョン無効化
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "InterfaceAction")
+		void OnUnUseCollision(class UPrimitiveComponent* Col_1, class UPrimitiveComponent* Col_2);
+
+	// ダメージ処理
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "InterfaceAction")
+		void OnDamage(AActor* actor, float defence);
+
+	// 死亡イベント
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Action")
+		void DeathAction();
 
 };
