@@ -54,7 +54,8 @@ void ABattleCharacter::InitializeStatus(FName _RowName)
 
 	// 値の設定
 	MyStatus.MyTeam = record->MyTeam;
-	MyStatus.MyState = record->MyState;
+	MyStatus.EquipState = record->EquipState;
+	MyStatus.BattleState = record->BattleState;
 	MyStatus.Name = record->Name;
 	MyStatus.MaxHP = record->MaxHP;
 	CurrentHP = MyStatus.MaxHP;
@@ -105,6 +106,18 @@ bool ABattleCharacter::GetIsPlayerTeam()
 	return false;
 }
 
+// 装備状態を返す
+EEquipmentState ABattleCharacter::GetEquipState()
+{
+	return MyStatus.EquipState;
+}
+
+// 戦闘状態を返す
+EBattleState ABattleCharacter::GetBattleState()
+{
+	return MyStatus.BattleState;
+}
+
 // 初回処理
 void ABattleCharacter::BeginPlay()
 {
@@ -117,6 +130,18 @@ void ABattleCharacter::EquipActive(UStaticMeshComponent * _EquipMesh, UStaticMes
 	// 装備位置に移動
 	_TargetMesh->SetStaticMesh(_EquipMesh->GetStaticMesh());
 	_TargetMesh->SetRelativeTransform(_EquipTransform);
+}
+
+// 装備状態の設定
+void ABattleCharacter::EquipSetting(EEquipmentState _State)
+{
+	MyStatus.EquipState = _State;
+}
+
+// 戦闘ステートの設定
+void ABattleCharacter::BattleSetting(EBattleState _State)
+{
+	MyStatus.BattleState = _State;
 }
 
 // キャラクターの移動

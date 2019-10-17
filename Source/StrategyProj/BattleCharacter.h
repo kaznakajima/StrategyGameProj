@@ -63,6 +63,13 @@ public:
 	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "Character")
 		bool GetIsPlayerTeam();
 
+	// 現在の装備状態を返す
+	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "Character")
+		EEquipmentState GetEquipState();
+	// 現在の装備状態を返す
+	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "Character")
+		EBattleState GetBattleState();
+
 	// バトル中かどうか
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
 		bool IsBattle;
@@ -102,6 +109,13 @@ protected:
 	// 装備
 	UFUNCTION(BlueprintCallable, Category = "Equip")
 		void EquipActive(UStaticMeshComponent* _EquipMesh, UStaticMeshComponent* _TargetMesh, FTransform _EquipTransform);
+	// 装備状態の設定
+	UFUNCTION(BlueprintCallable, Category = "Equip")
+		void EquipSetting(EEquipmentState _State);
+
+	// 戦闘ステートの設定
+	UFUNCTION(BlueprintCallable, Category = "Equip")
+		void BattleSetting(EBattleState _State);
 
 	// キャラクターの移動
 	UFUNCTION(BlueprintCallable, Category = "CharacterAction")
@@ -143,7 +157,7 @@ public:
 
 	// 戦闘アクション開始イベント
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
-		void ActionMove(EBattleState _BattleState);
+		void ActionMove();
 
 	// 更新処理
 		virtual void Tick(float DeltaTime) override;

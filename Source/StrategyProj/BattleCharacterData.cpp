@@ -27,7 +27,8 @@ void UBattleCharacterData::Import()
 		// ’l‚ÌÝ’è
 		FCharacterDataAssetRecord asset;
 		asset.MyTeam = record->MyTeam;
-		asset.MyState = record->MyState;
+		asset.EquipState = record->EquipState;
+		asset.BattleState = record->BattleState;
 		asset.Name = FText::FromName(Names[i]);
 		asset.MaxHP = record->MaxHP;
 		asset.MaxSP = record->MaxSP;

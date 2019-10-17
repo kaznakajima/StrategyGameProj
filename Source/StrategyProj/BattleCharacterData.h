@@ -21,7 +21,11 @@ public:
 
 	// キャラクターの装備状態
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-		EEquipmentState MyState;
+		EEquipmentState EquipState;
+
+	// キャラクターの装備状態
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+		EBattleState BattleState;
 
 	// キャラクター名
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
@@ -60,7 +64,11 @@ public:
 
 	// キャラクターの装備状態
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-		EEquipmentState MyState;
+		EEquipmentState EquipState;
+
+	// キャラクターの装備状態
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
+		EBattleState BattleState;
 
 	// キャラクター名
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")

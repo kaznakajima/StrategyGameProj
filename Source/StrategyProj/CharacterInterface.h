@@ -56,7 +56,7 @@ struct FCharacterStatus
 
 	// キャラクターの装備状態
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
-		EEquipmentState MyState;
+		EEquipmentState EquipState;
 
 	// キャラクターの装備状態
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CharacterStatus")
