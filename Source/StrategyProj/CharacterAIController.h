@@ -11,6 +11,11 @@ class STRATEGYPROJ_API ACharacterAIController : public AAIController
 {
 	GENERATED_BODY()
 
+public:
+	// AI‚ð“®‚©‚¹‚é
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "AI_Move")
+		void RunAI();
+
 	// ˆÚ“®Š®—¹‚ðŒŸ’m
 	void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;
 };

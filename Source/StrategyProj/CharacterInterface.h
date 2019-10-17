@@ -38,6 +38,7 @@ enum class EEquipmentState : uint8
 UENUM(BlueprintType)
 enum class EBattleState : uint8
 {
+	NONE			UMETA(DisplayName = "NONE"),
 	ATTACK			UMETA(DisplayName = "ATTACK"),
 	GARD			UMETA(DisplayNama = "GARD"),
 	AVOID			UMETA(DisplayName = "AVOID"),

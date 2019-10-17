@@ -3,6 +3,7 @@
 #include "MapCreate.h"
 #include "Kismet/GameplayStatics.h"
 #include "BattleCharacter.h"
+#include "CharacterAIController.h"
 
 // コンストラクタ
 AMapCreate::AMapCreate()
@@ -78,18 +79,22 @@ void AMapCreate::CreateRoad()
 // ユニットの生成
 void AMapCreate::UnitSpawn(int _UnitNum)
 {
-	FString path = "/Game/Character/MyBattleCharacter.MyBattleCharacter_C";
-	TSubclassOf<class ABattleCharacter> character = TSoftClassPtr<ABattleCharacter>(FSoftObjectPath(*path)).LoadSynchronous();
+	FString PlayerPath = "/Game/Character/MyBattleCharacter.MyBattleCharacter_C";
+	TSubclassOf<class ABattleCharacter> PlayerCharacter = TSoftClassPtr<ABattleCharacter>(FSoftObjectPath(*PlayerPath)).LoadSynchronous();
 
 	int Index = FMath::RandRange(0, AreaList.Num() - 1);
-	ABattleCharacter* Character = GetWorld()->SpawnActor<ABattleCharacter>(character);
+	ABattleCharacter* Character = GetWorld()->SpawnActor<ABattleCharacter>(PlayerCharacter);
 	if (Character == nullptr) return;
 
 	Character->SpawnDefaultController();
 	FVector SpawnPos = FVector(AreaList[Index]->GetActorLocation().X, AreaList[Index]->GetActorLocation().Y, 150.0f);
 	Character->SetActorLocation(SpawnPos);
+
 	// 味方と敵判別
 	if (_UnitNum / 2 < 1) {
+		// 敵のみAIを起動
+		ACharacterAIController* Controller = Cast<ACharacterAIController>(Character->GetController());
+		Controller->RunAI();
 		Character->InitializeStatus(FName("EnemyNormal"));
 	}
 	else {
