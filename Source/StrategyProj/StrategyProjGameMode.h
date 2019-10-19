@@ -7,6 +7,12 @@
 #include "BattleStage.h"
 #include "StrategyProjGameMode.generated.h"
 
+// 動的マルチキャストデリゲート(イベントディスパッチャー)の宣言
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FBattleStart);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FBattleEnd);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FFirstCharacterEvent);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLateCharacterEvent);
+
 UCLASS(minimalapi)
 class AStrategyProjGameMode : public AGameModeBase
 {
@@ -19,9 +25,31 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Battle")
 		bool BattleFlg;
 
+	// 戦闘開始イベント
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Event")
+		FBattleStart BattleStartEvent;
+	// 戦闘終了イベント
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Event")
+		FBattleEnd BattleEndEvent;
+
+	// EventDispatcher(先攻キャラクターイベント)
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Event")
+		FFirstCharacterEvent FirstCharacterEvent;
+	// EventDispatcher(後攻キャラクターイベント)
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Event")
+		FLateCharacterEvent LateCharacterEvent;
+
 	// バトル用ステージ
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Battle")
 		ABattleStage* BattleStage;
+
+	// 先攻のキャラクター
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RoomParts")
+		ABattleCharacter* FirstCharacter;
+
+	// 後攻のキャラクター
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "RoomParts")
+		ABattleCharacter* LateCharacter;
 
 	// 戦闘準備
 	UFUNCTION(BlueprintCallable, Category = "Battle")

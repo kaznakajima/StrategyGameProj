@@ -25,9 +25,9 @@ void AStrategyProjGameMode::BattleCharacterSetting(AActor* _Player, AActor* _Ene
 	MyController->SetViewTargetWithBlend(BattleStage, 0.0f);
 
 	// æUAŒãU‚ÌÝ’è
-	BattleStage->FirstCharacter = Cast<ABattleCharacter>(_Player);
-	BattleStage->LastCharacter = Cast<ABattleCharacter>(_Enemy);
-
+	FirstCharacter = Cast<ABattleCharacter>(_Player);
+	LateCharacter = Cast<ABattleCharacter>(_Enemy);
+	
 	// Player‚ÌÝ’è
 	FVector PlayerLocation = BattleStage->GetActorLocation() + FVector(-200.0f, 0.0f, 100.0f);
 	_Player->SetActorLocation(PlayerLocation);
