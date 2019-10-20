@@ -59,9 +59,15 @@ protected:
 	// エリア間の通路を作っていく
 	void CreateRoad();
 
-	UFUNCTION(BlueprintCallable)
 	// ユニットの生成
-	void UnitSpawn(int _UnitNum);
+	UFUNCTION(BlueprintCallable)
+		void UnitSpawn();
+
+	// 武器のPathリスト
+		TArray<FString> WeaponPath;
+	// 装備品の生成
+	UFUNCTION(BlueprintCallable)
+		void WeaponSpawn();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

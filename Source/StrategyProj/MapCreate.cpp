@@ -3,6 +3,7 @@
 #include "MapCreate.h"
 #include "Kismet/GameplayStatics.h"
 #include "BattleCharacter.h"
+#include "WeaponActor.h"
 #include "CharacterAIController.h"
 
 // コンストラクタ
@@ -61,7 +62,11 @@ void AMapCreate::CreateMap()
 		if (room->MyRoom == nullptr) AreaList.Remove(room);
 	}
 
-	for (int num = 0; num < MyStatus.UnitCount;num++) UnitSpawn(num);
+	// ユニットを配置していく
+	UnitSpawn();
+
+	// 装備品生成
+	WeaponSpawn();
 }
 
 // 領域の生成
@@ -77,34 +82,67 @@ void AMapCreate::CreateRoad()
 }
 
 // ユニットの生成
-void AMapCreate::UnitSpawn(int _UnitNum)
+void AMapCreate::UnitSpawn()
 {
 	FString PlayerPath = "/Game/Character/MyBattleCharacter.MyBattleCharacter_C";
 	TSubclassOf<class ABattleCharacter> PlayerCharacter = TSoftClassPtr<ABattleCharacter>(FSoftObjectPath(*PlayerPath)).LoadSynchronous();
 
-	int Index = FMath::RandRange(0, AreaList.Num() - 1);
-	ABattleCharacter* Character = GetWorld()->SpawnActor<ABattleCharacter>(PlayerCharacter);
-	if (Character == nullptr) return;
+	for (int Count = 0; Count < MyStatus.UnitCount; Count++) {
 
-	Character->SpawnDefaultController();
-	FVector SpawnPos = FVector(AreaList[Index]->GetActorLocation().X, AreaList[Index]->GetActorLocation().Y, 150.0f);
-	Character->SetActorLocation(SpawnPos);
+		// ランダムで生成する
+		int Index = FMath::RandRange(0, AreaList.Num() - 1);
+		ABattleCharacter* Character = GetWorld()->SpawnActor<ABattleCharacter>(PlayerCharacter);
+		if (Character == nullptr) return;
 
-	// 味方と敵判別
-	if (_UnitNum / 2 < 1) {
-		// 敵のみAIを起動
-		ACharacterAIController* Controller = Cast<ACharacterAIController>(Character->GetController());
-		Controller->RunAI();
-		Character->InitializeStatus(FName("EnemyNormal"));
+		Character->SpawnDefaultController();
+		FVector SpawnPos = FVector(AreaList[Index]->GetActorLocation().X, AreaList[Index]->GetActorLocation().Y, 150.0f);
+		Character->SetActorLocation(SpawnPos);
+
+		// 味方と敵判別
+		if (Count / 2 < 1) {
+			// 敵のみAIを起動
+			ACharacterAIController* Controller = Cast<ACharacterAIController>(Character->GetController());
+			Controller->RunAI();
+			Character->InitializeStatus(FName("EnemyNormal"));
+		}
+		else {
+			Character->InitializeStatus(FName("PlayerNormal"));
+		}
 	}
-	else {
-		Character->InitializeStatus(FName("PlayerNormal"));
+}
+
+// 装備品の生成
+void AMapCreate::WeaponSpawn()
+{
+	for (int Count = 0; Count < 4; Count++) {
+
+		// ランダムで装備品を配置
+		int WeaponIndex = FMath::RandRange(0, WeaponPath.Num() - 1);
+		TSubclassOf<class AWeaponActor> Weapon = TSoftClassPtr<AWeaponActor>(FSoftObjectPath(*WeaponPath[WeaponIndex])).LoadSynchronous();
+
+		FVector SpawnPos = FVector::ZeroVector;
+
+		// ランダムに生成
+		int AreaIndex = FMath::RandRange(0, AreaList.Num() - 1);
+
+		// ランダムに生成していく
+		// 生成位置の定義
+		SpawnPos = FVector(AreaList[AreaIndex]->GetActorLocation().X, AreaList[AreaIndex]->GetActorLocation().Y, 100.0f);
+		// 部屋の設置
+		AWeaponActor* NewWeapon = GetWorld()->SpawnActor<AWeaponActor>(Weapon);
+		NewWeapon->SetActorLocation(SpawnPos);
 	}
 }
 
 // 初回処理
 void AMapCreate::BeginPlay()
 {
+	// 武器のPathリスト
+	WeaponPath.Add("/Game/Items/W_Sword.W_Sword_C");
+	WeaponPath.Add("/Game/Items/W_TwoHandSword.W_TwoHandSword_C");
+	WeaponPath.Add("/Game/Items/W_Shild.W_Shild_C");
+	WeaponPath.Add("/Game/Items/W_Bow.W_Bow_C");
+
 	CreateMap();
 }
 

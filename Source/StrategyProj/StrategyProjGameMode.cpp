@@ -20,13 +20,13 @@ AStrategyProjGameMode::AStrategyProjGameMode()
 // 戦闘準備
 void AStrategyProjGameMode::BattleCharacterSetting(AActor* _Player, AActor* _Enemy)
 {
-	// 戦闘ステージにフォーカス
-	APlayerController* MyController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	MyController->SetViewTargetWithBlend(BattleStage, 0.0f);
-
 	// 先攻、後攻の設定
 	FirstCharacter = Cast<ABattleCharacter>(_Player);
 	LateCharacter = Cast<ABattleCharacter>(_Enemy);
+
+	// 戦闘ステージにフォーカス
+	APlayerController* MyController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	MyController->SetViewTargetWithBlend(FirstCharacter, 0.0f);
 	
 	// Playerの設定
 	FVector PlayerLocation = BattleStage->GetActorLocation() + FVector(-200.0f, 0.0f, 100.0f);
