@@ -26,7 +26,7 @@ void AStrategyProjGameMode::BattleCharacterSetting(AActor* _Player, AActor* _Ene
 
 	// 戦闘ステージにフォーカス
 	APlayerController* MyController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	MyController->SetViewTargetWithBlend(FirstCharacter, 0.0f);
+	MyController->SetViewTargetWithBlend(BattleStage, 0.0f);
 	
 	// Playerの設定
 	FVector PlayerLocation = BattleStage->GetActorLocation() + FVector(-200.0f, 0.0f, 100.0f);
