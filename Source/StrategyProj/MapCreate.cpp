@@ -87,10 +87,19 @@ void AMapCreate::UnitSpawn()
 	FString PlayerPath = "/Game/Character/MyBattleCharacter.MyBattleCharacter_C";
 	TSubclassOf<class ABattleCharacter> PlayerCharacter = TSoftClassPtr<ABattleCharacter>(FSoftObjectPath(*PlayerPath)).LoadSynchronous();
 
-	for (int Count = 0; Count < MyStatus.UnitCount; Count++) {
+	// 生成カウント数
+	int Count = 0;
+	// かぶり防止用のインデックス配列
+	TArray<int> IndexList;
+	do {
 
 		// ランダムで生成する
 		int Index = FMath::RandRange(0, AreaList.Num() - 1);
+		// 被らないようにチェック
+		for (int _Index : IndexList) {
+			if (_Index == Index) continue;
+		}
+
 		ABattleCharacter* Character = GetWorld()->SpawnActor<ABattleCharacter>(PlayerCharacter);
 		if (Character == nullptr) return;
 
@@ -108,13 +117,26 @@ void AMapCreate::UnitSpawn()
 		else {
 			Character->InitializeStatus(FName("PlayerNormal"));
 		}
-	}
+
+		Count++;
+		IndexList.Add(Index);
+	} while (Count < MyStatus.UnitCount);
 }
 
 // 装備品の生成
 void AMapCreate::WeaponSpawn()
 {
-	for (int Count = 0; Count < 4; Count++) {
+	// 生成カウント数
+	int Count = 0;
+	// かぶり防止用のインデックス配列
+	TArray<int> IndexList;
+	do {
+		// ランダムに生成
+		int Index = FMath::RandRange(0, AreaList.Num() - 1);
+		// 被らないようにチェック
+		for (int _Index : IndexList) {
+			if (_Index == Index) continue;
+		}
 
 		// ランダムで装備品を配置
 		int WeaponIndex = FMath::RandRange(0, WeaponPath.Num() - 1);
@@ -122,16 +144,16 @@ void AMapCreate::WeaponSpawn()
 
 		FVector SpawnPos = FVector::ZeroVector;
 
-		// ランダムに生成
-		int AreaIndex = FMath::RandRange(0, AreaList.Num() - 1);
-
 		// ランダムに生成していく
 		// 生成位置の定義
-		SpawnPos = FVector(AreaList[AreaIndex]->GetActorLocation().X, AreaList[AreaIndex]->GetActorLocation().Y, 100.0f);
+		SpawnPos = FVector(AreaList[Index]->GetActorLocation().X, AreaList[Index]->GetActorLocation().Y, 100.0f);
 		// 部屋の設置
 		AWeaponActor* NewWeapon = GetWorld()->SpawnActor<AWeaponActor>(Weapon);
 		NewWeapon->SetActorLocation(SpawnPos);
-	}
+
+		Count++;
+		IndexList.Add(Index);
+	} while (Count < MyStatus.UnitCount);
 }
 
 // 初回処理
