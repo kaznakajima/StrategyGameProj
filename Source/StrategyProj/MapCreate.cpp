@@ -91,8 +91,7 @@ void AMapCreate::UnitSpawn()
 	int Count = 0;
 	// かぶり防止用のインデックス配列
 	TArray<int> IndexList;
-	do {
-
+	while (Count < MyStatus.UnitCount) {
 		// ランダムで生成する
 		int Index = FMath::RandRange(0, AreaList.Num() - 1);
 		// 被らないようにチェック
@@ -100,6 +99,7 @@ void AMapCreate::UnitSpawn()
 			if (_Index == Index) continue;
 		}
 
+		// キャラクターの生成
 		ABattleCharacter* Character = GetWorld()->SpawnActor<ABattleCharacter>(PlayerCharacter);
 		if (Character == nullptr) return;
 
@@ -118,9 +118,9 @@ void AMapCreate::UnitSpawn()
 			Character->InitializeStatus(FName("PlayerNormal"));
 		}
 
-		Count++;
 		IndexList.Add(Index);
-	} while (Count < MyStatus.UnitCount);
+		Count++;
+	}
 }
 
 // 装備品の生成
@@ -130,7 +130,7 @@ void AMapCreate::WeaponSpawn()
 	int Count = 0;
 	// かぶり防止用のインデックス配列
 	TArray<int> IndexList;
-	do {
+	while (Count < 4) {
 		// ランダムに生成
 		int Index = FMath::RandRange(0, AreaList.Num() - 1);
 		// 被らないようにチェック
@@ -151,9 +151,9 @@ void AMapCreate::WeaponSpawn()
 		AWeaponActor* NewWeapon = GetWorld()->SpawnActor<AWeaponActor>(Weapon);
 		NewWeapon->SetActorLocation(SpawnPos);
 
-		Count++;
 		IndexList.Add(Index);
-	} while (Count < MyStatus.UnitCount);
+		Count++;
+	}
 }
 
 // 初回処理
