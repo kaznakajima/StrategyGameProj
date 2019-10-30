@@ -84,8 +84,10 @@ void AMapCreate::CreateRoad()
 // ユニットの生成
 void AMapCreate::UnitSpawn()
 {
-	FString PlayerPath = "/Game/Character/MyBattleCharacter.MyBattleCharacter_C";
-	TSubclassOf<class ABattleCharacter> PlayerCharacter = TSoftClassPtr<ABattleCharacter>(FSoftObjectPath(*PlayerPath)).LoadSynchronous();
+	FString NormalPath = "/Game/Character/MyBattleCharacter.MyBattleCharacter_C";
+	TSubclassOf<class ABattleCharacter> NormalCharacter = TSoftClassPtr<ABattleCharacter>(FSoftObjectPath(*NormalPath)).LoadSynchronous();
+	FString CommanderPath = "/Game/Character/CommanderCharacter.CommanderCharacter_C";
+	TSubclassOf<class ABattleCharacter> CommanderCharacter = TSoftClassPtr<ABattleCharacter>(FSoftObjectPath(*CommanderPath)).LoadSynchronous();
 
 	// 生成カウント数
 	int Count = 0;
@@ -99,23 +101,46 @@ void AMapCreate::UnitSpawn()
 			if (_Index == Index) continue;
 		}
 
-		// キャラクターの生成
-		ABattleCharacter* Character = GetWorld()->SpawnActor<ABattleCharacter>(PlayerCharacter);
-		if (Character == nullptr) return;
-
-		Character->SpawnDefaultController();
-		FVector SpawnPos = FVector(AreaList[Index]->GetActorLocation().X, AreaList[Index]->GetActorLocation().Y, 150.0f);
-		Character->SetActorLocation(SpawnPos);
-
 		// 味方と敵判別
 		if (Count / 2 < 1) {
-			// 敵のみAIを起動
-			ACharacterAIController* Controller = Cast<ACharacterAIController>(Character->GetController());
-			Controller->RunAI();
-			Character->InitializeStatus(FName("EnemyNormal"));
+			// キャラクターの生成
+			ABattleCharacter* Character = nullptr;
+			// 指揮官
+			if (Count == 0) {
+				Character = GetWorld()->SpawnActor<ABattleCharacter>(CommanderCharacter);
+				if (Character == nullptr) return;
+				Character->InitializeStatus(FName("EnemyCommander"));
+			}
+			// 兵士
+			else {
+				Character = GetWorld()->SpawnActor<ABattleCharacter>(NormalCharacter);
+				if (Character == nullptr) return;
+				Character->InitializeStatus(FName("EnemyNormal"));
+			}
+
+			Character->SpawnDefaultController();
+			FVector SpawnPos = FVector(AreaList[Index]->GetActorLocation().X, AreaList[Index]->GetActorLocation().Y, 150.0f);
+			Character->SetActorLocation(SpawnPos);
 		}
 		else {
-			Character->InitializeStatus(FName("PlayerNormal"));
+			// キャラクターの生成
+			ABattleCharacter* Character = nullptr;
+			// 指揮官
+			if (Count == 2) {
+				Character = GetWorld()->SpawnActor<ABattleCharacter>(CommanderCharacter);
+				if (Character == nullptr) return;
+				Character->InitializeStatus(FName("PlayerCommander"));
+			}
+			// 兵士
+			else {
+				Character = GetWorld()->SpawnActor<ABattleCharacter>(NormalCharacter);
+				if (Character == nullptr) return;
+				Character->InitializeStatus(FName("PlayerNormal"));
+			}
+
+			Character->SpawnDefaultController();
+			FVector SpawnPos = FVector(AreaList[Index]->GetActorLocation().X, AreaList[Index]->GetActorLocation().Y, 150.0f);
+			Character->SetActorLocation(SpawnPos);
 		}
 
 		IndexList.Add(Index);
