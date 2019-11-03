@@ -67,12 +67,12 @@ void ABattleCharacter::InitializeStatus(FName _RowName)
 }
 
 // ダメージイベント
-void ABattleCharacter::OnDamage_Implementation(AActor * _actor, float _def)
+void ABattleCharacter::OnDamage_Implementation(float MagicPower, AActor * _actor, float _def)
 {
 	AController* PlayerController = GetController();
 
 	// ダメージ計算
-	float damage = MyStatus.STR - _def;
+	float damage = (MyStatus.STR + MagicPower) - _def;
 
 	// ダメージイベントの取得
 	TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());

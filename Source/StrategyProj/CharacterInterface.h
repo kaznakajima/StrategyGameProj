@@ -104,7 +104,7 @@ public:
 
 	// ダメージ処理
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "InterfaceAction")
-		void OnDamage(AActor* actor, float defence);
+		void OnDamage(float MagicPower, AActor* actor, float defence);
 
 	// 死亡イベント
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Action")

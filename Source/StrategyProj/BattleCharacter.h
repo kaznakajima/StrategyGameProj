@@ -43,7 +43,7 @@ public:
 		void InitializeStatus(FName _RowName);
 
 	// ダメージイベント
-	void OnDamage_Implementation(AActor* actor, float defence) override;
+	void OnDamage_Implementation(float MagicPower, AActor* actor, float defence) override;
 
 	// コリジョン有効化
 	void OnUseCollision_Implementation(class UPrimitiveComponent* Col) override;
