@@ -10,8 +10,8 @@
 // 動的マルチキャストデリゲート(イベントディスパッチャー)の宣言
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FBattleStart);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FBattleEnd);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FFirstCharacterEvent);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLateCharacterEvent);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FFirstCharacterEvent, ABattleCharacter*, FirstCharacter);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLateCharacterEvent, ABattleCharacter*, LateCharacter);
 
 UCLASS(minimalapi)
 class AStrategyProjGameMode : public AGameModeBase

@@ -117,13 +117,13 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Equip")
 		void BattleSetting(EBattleState _State);
 
-	// キャラクターの移動
+	// キャラクターの移動(ターゲット指定)
 	UFUNCTION(BlueprintCallable, Category = "CharacterAction")
 		void NextMove(AActor* _TargetActor, float _Range);
 
-		void MoveForward(float Value);
-
-		void MoveRight(float Value);
+	// 元の地点に戻る
+	UFUNCTION(BlueprintCallable, Category = "CharacterAction")
+		void ResetMove(FVector _OffsetLocation, float _Range);
 	
 	// カメラ移動
 		void TurnAtRate(float Rate);
@@ -151,13 +151,17 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
 		void BattlePrepare();
 
-	// 戦闘イベント
+	// 戦闘アクション開始イベント(開始の瞬間)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
+		void ActionMove();
+
+	// 戦闘イベント(実際のアクション)
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
 		void ActionEvent();
 
-	// 戦闘アクション開始イベント
+	// 戦闘アクション終了イベント
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "CharacterAction")
-		void ActionMove();
+		void ActionEnd();
 
 	// 更新処理
 		virtual void Tick(float DeltaTime) override;

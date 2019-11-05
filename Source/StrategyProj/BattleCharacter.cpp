@@ -150,43 +150,25 @@ void ABattleCharacter::NextMove(AActor* _TargetActor, float _Range)
 	// 自身のControllerの取得
 	ACharacterAIController* MyController = Cast<ACharacterAIController>(GetController());
 
-	// 移動
+	// ターゲット方向に移動
 	if (MyController != nullptr && Moving == false) {
 		MyController->MoveToActor(_TargetActor, _Range, false);
 		Moving = true;
 	}
 }
 
-void ABattleCharacter::MoveForward(float Value)
+// 元の地点に戻る
+void ABattleCharacter::ResetMove(FVector _OffsetLocation, float _Range)
 {
-	if (IsDebug == false) return;
+	// 自身のControllerの取得
+	ACharacterAIController* MyController = Cast<ACharacterAIController>(GetController());
 
-	if ((Controller != NULL) && (Value != 0.0f))
-	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+	FVector TargetLocation = GetActorLocation() + _OffsetLocation;
 
-		// get forward vector
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
-	}
-}
-
-void ABattleCharacter::MoveRight(float Value)
-{
-	if (IsDebug == false) return;
-
-	if ((Controller != NULL) && (Value != 0.0f))
-	{
-		// find out which way is right
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-		// get right vector 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-		// add movement in that direction
-		AddMovementInput(Direction, Value);
+	// ターゲット方向に移動
+	if (MyController != nullptr && Moving == false) {
+		MyController->MoveToLocation(TargetLocation, _Range, false);
+		Moving = false;
 	}
 }
 
@@ -212,11 +194,6 @@ void ABattleCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-
-	PlayerInputComponent->BindAxis("MoveForward", this, &ABattleCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &ABattleCharacter::MoveRight);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.

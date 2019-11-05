@@ -20,4 +20,8 @@ void ACharacterAIController::OnMoveCompleted(FAIRequestID RequestID, const FPath
 		MyCharacter->MyLocation = MyCharacter->GetActorLocation();
 		MyCharacter->MoveEndEvent.Broadcast(false);
 	}
+	else if(MyCharacter != nullptr && MyCharacter->IsBattle == false) {
+		// アクション終了
+		MyCharacter->ActionEnd();
+	}
 }
