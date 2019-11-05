@@ -90,10 +90,10 @@ void AMapCreate::UnitSpawn()
 	TSubclassOf<class ABattleCharacter> CommanderCharacter = TSoftClassPtr<ABattleCharacter>(FSoftObjectPath(*CommanderPath)).LoadSynchronous();
 
 	// 生成カウント数
-	int Count = 0;
+	int Count = 1;
 	// かぶり防止用のインデックス配列
 	TArray<int> IndexList;
-	while (Count < MyStatus.UnitCount) {
+	while (Count < MyStatus.UnitCount + 1) {
 		// ランダムで生成する
 		int Index = FMath::RandRange(0, AreaList.Num() - 1);
 		// 被らないようにチェック
@@ -102,11 +102,11 @@ void AMapCreate::UnitSpawn()
 		}
 
 		// 味方と敵判別
-		if (Count / 2 < 1) {
+		if (Count % 2 != 0) {
 			// キャラクターの生成
 			ABattleCharacter* Character = nullptr;
 			// 指揮官
-			if (Count == 0) {
+			if (Count == 1) {
 				Character = GetWorld()->SpawnActor<ABattleCharacter>(CommanderCharacter);
 				if (Character == nullptr) return;
 				Character->InitializeStatus(FName("EnemyCommander"));
