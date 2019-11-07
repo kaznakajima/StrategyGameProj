@@ -10,6 +10,7 @@ APlayerControllPawn::APlayerControllPawn()
 	PrimaryActorTick.bCanEverTick = true;
 
 	BaseTurnRate = 45.f;
+	BaseLookUpRate = 45.f;
 
 	// SceneComponentのセットアップ
 	DefaultSceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultComponent"));
@@ -40,6 +41,11 @@ void APlayerControllPawn::TurnAtRate(float Rate)
 	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
 
+void APlayerControllPawn::LookUpAtRate(float Rate)
+{
+	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+}
+
 // 更新処理
 void APlayerControllPawn::Tick(float DeltaTime)
 {
@@ -51,7 +57,7 @@ void APlayerControllPawn::Tick(float DeltaTime)
 void APlayerControllPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	check(PlayerInputComponent);
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("TurnRate", this, &APlayerControllPawn::TurnAtRate);
+	PlayerInputComponent->BindAxis("Turn", this, &APlayerControllPawn::TurnAtRate);
+	PlayerInputComponent->BindAxis("LookUp", this, &APlayerControllPawn::LookUpAtRate);
 }
 

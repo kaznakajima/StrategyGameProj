@@ -182,14 +182,24 @@ void ABattleCharacter::ResetMove(FVector _OffsetLocation, float _Range)
 	}
 }
 
-void ABattleCharacter::TurnAtRate(float Rate)
+// ‰¡‰ñ“]
+void ABattleCharacter::TurnAtRate(float _Rate)
 {
-	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
+	AddControllerYawInput(_Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
+}
+// c‰ñ“]
+void ABattleCharacter::LookUpAtRate(float _Rate)
+{
+	AddControllerPitchInput(_Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
-void ABattleCharacter::LookUpAtRate(float Rate)
+// ƒvƒŒƒCƒ„[ˆÚ“®
+void ABattleCharacter::PlayerMove(AActor* _TargetActor, float _Value)
 {
-	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+	// ˆÚ“®’†‚ÍƒŠƒ^[ƒ“
+	if (Moving) return;
+
+	NextMove(_TargetActor, 50.0f);
 }
 
 // Called every frame
@@ -205,9 +215,7 @@ void ABattleCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	// Set up gameplay key bindings
 	check(PlayerInputComponent);
 
-	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
-	// "turn" handles devices that provide an absolute delta, such as a mouse.
-	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
+	// ƒJƒƒ‰‰ñ“]
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("TurnRate", this, &ABattleCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);

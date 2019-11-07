@@ -131,9 +131,13 @@ protected:
 		void ResetMove(FVector _OffsetLocation, float _Range);
 	
 	// カメラ移動
-		void TurnAtRate(float Rate);
+		void TurnAtRate(float _Rate);
 	// カメラ移動
-		void LookUpAtRate(float Rate);
+		void LookUpAtRate(float _Rate);
+
+	// プレイヤー移動
+	UFUNCTION(BlueprintCallable, Category = "CharacterAction")
+		void PlayerMove(AActor* _TargetActor, float _Value);
 
 	// 初回時の処理
 		virtual void BeginPlay() override;

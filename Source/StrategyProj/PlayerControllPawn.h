@@ -48,9 +48,15 @@ protected:
 	// カメラの回転量
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	float BaseTurnRate;
+	
+	// カメラの回転量
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+	float BaseLookUpRate;
 
 	// カメラ移動
 	void TurnAtRate(float Rate);
+	// カメラ移動
+	void LookUpAtRate(float Rate);
 
 public:	
 	// 更新処理
