@@ -2,6 +2,7 @@
 
 #include "CharacterAIController.h"
 #include "BattleCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // 移動完了後の処理
 void ACharacterAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult & Result)
@@ -23,5 +24,6 @@ void ACharacterAIController::OnMoveCompleted(FAIRequestID RequestID, const FPath
 	else if(MyCharacter != nullptr && MyCharacter->IsBattle == false) {
 		// アクション終了
 		MyCharacter->ActionEnd();
+		MyCharacter->GetCharacterMovement()->bOrientRotationToMovement = true;
 	}
 }

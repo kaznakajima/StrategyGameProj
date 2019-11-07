@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "CharacterInterface.h"
+#include "WeaponInterface.h"
 #include "Components/StaticMeshComponent.h"
 #include "RoomActor.h"
 #include "BattleCharacterData.h"
@@ -12,6 +13,7 @@
 
 // 動的マルチキャストデリゲート(イベントディスパッチャー)の宣言
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterMoveEvent, bool, IsCancel);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterEquipEvent, EEquipmentState, IsCancel);
 
 // 戦闘を行うキャラクタークラス
 UCLASS()
@@ -37,6 +39,9 @@ public:
 	// EventDispatcher(移動終了イベント)
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Event")
 		FCharacterMoveEvent MoveEndEvent;
+	// EventDispatcher(装備取得イベント)
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Event")
+		FCharacterEquipEvent EquipEvent;
 
 	// ステータスの初期化
 	UFUNCTION(BlueprintCallable, Category = "Character")
@@ -111,7 +116,7 @@ protected:
 		void EquipActive(UStaticMeshComponent* _EquipMesh, UStaticMeshComponent* _TargetMesh, FTransform _EquipTransform);
 	// 装備状態の設定
 	UFUNCTION(BlueprintCallable, Category = "Equip")
-		void EquipSetting(EEquipmentState _State);
+		void EquipSetting(EEquipmentState _State, FWeaponStatus _Status);
 
 	// 戦闘ステートの設定
 	UFUNCTION(BlueprintCallable, Category = "Equip")

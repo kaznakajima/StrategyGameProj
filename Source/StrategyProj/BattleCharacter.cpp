@@ -133,9 +133,18 @@ void ABattleCharacter::EquipActive(UStaticMeshComponent * _EquipMesh, UStaticMes
 }
 
 // 装備状態の設定
-void ABattleCharacter::EquipSetting(EEquipmentState _State)
+void ABattleCharacter::EquipSetting(EEquipmentState _State, FWeaponStatus _Status)
 {
 	MyStatus.EquipState = _State;
+
+	// ステータス更新
+	MyStatus.MaxHP = MyStatus.MaxHP + _Status.HP;
+	MyStatus.MaxSP = MyStatus.MaxSP + _Status.SP;
+	MyStatus.STR = MyStatus.STR + _Status.STR;
+	MyStatus.DEF = MyStatus.DEF + _Status.DEF;
+	MyStatus.AVO = MyStatus.AVO + _Status.AVO;
+
+	EquipEvent.Broadcast(MyStatus.EquipState);
 }
 
 // 戦闘ステートの設定
@@ -168,6 +177,7 @@ void ABattleCharacter::ResetMove(FVector _OffsetLocation, float _Range)
 	// ターゲット方向に移動
 	if (MyController != nullptr && Moving == false) {
 		MyController->MoveToLocation(TargetLocation, _Range, false);
+		GetCharacterMovement()->bOrientRotationToMovement = false;
 		Moving = false;
 	}
 }
