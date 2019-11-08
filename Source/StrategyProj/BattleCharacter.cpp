@@ -216,9 +216,7 @@ void ABattleCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	check(PlayerInputComponent);
 
 	// ƒJƒƒ‰‰ñ“]
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("TurnRate", this, &ABattleCharacter::TurnAtRate);
-	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("LookUpRate", this, &ABattleCharacter::LookUpAtRate);
+	PlayerInputComponent->BindAxis("Turn", this, &ABattleCharacter::TurnAtRate);
+	PlayerInputComponent->BindAxis("LookUp", this, &ABattleCharacter::LookUpAtRate);
 }
 

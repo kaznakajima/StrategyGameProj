@@ -35,6 +35,17 @@ void APlayerControllPawn::BeginPlay()
 	
 }
 
+// 次に移動するキャラクターを表示
+ABattleCharacter * APlayerControllPawn::GetNextCharacter()
+{
+	// 各キャラクターを検索
+	for (ABattleCharacter* Character : CharacterList) {
+		if (Character->Moving == false) return Character;
+	}
+
+	return nullptr;
+}
+
 // カメラ回転
 void APlayerControllPawn::TurnAtRate(float Rate)
 {

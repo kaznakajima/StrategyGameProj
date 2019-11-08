@@ -94,6 +94,7 @@ void AMapCreate::UnitSpawn()
 	// かぶり防止用のインデックス配列
 	TArray<int> IndexList;
 	while (Count < MyStatus.UnitCount + 1) {
+
 		// ランダムで生成する
 		int Index = FMath::RandRange(0, AreaList.Num() - 1);
 		// 被らないようにチェック
@@ -156,6 +157,7 @@ void AMapCreate::WeaponSpawn()
 	// かぶり防止用のインデックス配列
 	TArray<int> IndexList;
 	while (Count < 4) {
+
 		// ランダムに生成
 		int Index = FMath::RandRange(0, AreaList.Num() - 1);
 		// 被らないようにチェック

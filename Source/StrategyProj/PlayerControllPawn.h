@@ -41,6 +41,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Character")
 	ABattleCharacter* ActiveCharacter;
 
+	UFUNCTION(BlueprintCallable, Category = "Character")
+		ABattleCharacter* GetNextCharacter();
+
 	// ˜ëáÕŽ‹“_‚©‚Ç‚¤‚©
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Status")
 	bool IsView;
