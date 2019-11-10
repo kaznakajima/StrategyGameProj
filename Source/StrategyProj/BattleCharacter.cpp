@@ -175,7 +175,7 @@ void ABattleCharacter::ResetMove(FVector _OffsetLocation, float _Range)
 	FVector TargetLocation = GetActorLocation() + _OffsetLocation;
 
 	// ターゲット方向に移動
-	if (MyController != nullptr && Moving == false) {
+	if (MyController != nullptr) {
 		MyController->MoveToLocation(TargetLocation, _Range, false);
 		GetCharacterMovement()->bOrientRotationToMovement = false;
 		Moving = false;
