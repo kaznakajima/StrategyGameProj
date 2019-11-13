@@ -91,16 +91,18 @@ void AMapCreate::UnitSpawn()
 
 	// 生成カウント数
 	int Count = 1;
-	// かぶり防止用のインデックス配列
-	TArray<int*> IndexList;
+	// リストを初期化
+	IndexList.Empty();
 	while (Count < MyStatus.UnitCount + 1) {
 
 		// ランダムで生成する
 		int Index = FMath::RandRange(0, AreaList.Num() - 1);
 		// 被らないようにチェック
-		for (int* _Index : IndexList) {
-			if (_Index == &Index) continue;
+		for (int _Index : IndexList) {
+			if (_Index == Index) continue;
 		}
+
+		IndexList.Add(Index);
 
 		// 味方と敵判別
 		if (Count % 2 != 0) {
@@ -144,7 +146,6 @@ void AMapCreate::UnitSpawn()
 			Character->SetActorLocation(SpawnPos);
 		}
 
-		IndexList.Add(&Index);
 		Count++;
 	}
 }
@@ -154,16 +155,18 @@ void AMapCreate::WeaponSpawn()
 {
 	// 生成カウント数
 	int Count = 0;
-	// かぶり防止用のインデックス配列
-	TArray<int*> IndexList;
+	// リストを初期化
+	IndexList.Empty();
 	while (Count < 4) {
 
 		// ランダムに生成
 		int Index = FMath::RandRange(0, AreaList.Num() - 1);
 		// 被らないようにチェック
-		for (int* _Index : IndexList) {
-			if (_Index == &Index) continue;
+		for (int _Index : IndexList) {
+			if (_Index == Index) continue;
 		}
+
+		IndexList.Add(Index);
 
 		// ランダムで装備品を配置
 		int WeaponIndex = FMath::RandRange(0, WeaponPath.Num() - 1);
@@ -178,7 +181,6 @@ void AMapCreate::WeaponSpawn()
 		AWeaponActor* NewWeapon = GetWorld()->SpawnActor<AWeaponActor>(Weapon);
 		NewWeapon->SetActorLocation(SpawnPos);
 
-		IndexList.Add(&Index);
 		Count++;
 	}
 }

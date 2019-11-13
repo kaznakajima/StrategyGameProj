@@ -49,6 +49,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Room")
 	TArray<ARoomData*> AreaList;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Room")
+	TArray<int> IndexList;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Room")
 	int FirstLocation;
 
 	// ステージを作っていく
