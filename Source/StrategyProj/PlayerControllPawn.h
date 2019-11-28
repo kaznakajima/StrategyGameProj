@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "BattleCharacter.h"
+#include "MapCreate.h"
 #include "PlayerControllPawn.generated.h"
 
 UCLASS()
@@ -44,6 +45,9 @@ protected:
 	// 俯瞰視点かどうか
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Status")
 		bool IsView;
+	// 俯瞰視点時のステージの中間座標
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Status")
+		FVector ViewLocation;
 	// 視点モード変更
 	UFUNCTION(BlueprintCallable, Category = "Character")
 		void ChangeViewMode();

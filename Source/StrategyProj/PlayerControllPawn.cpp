@@ -4,7 +4,6 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "MapCreate.h"
 
 // Sets default values
 APlayerControllPawn::APlayerControllPawn()
@@ -58,7 +57,14 @@ void APlayerControllPawn::ChangeViewMode()
 	}
 	// 俯瞰視点へ
 	else {
+		// 部屋の数から中間を取得
+		int Count = (MainMap->MyStatus.RoomCount - 1) * 0.5f;
+		// 中間地点の座標点を計算
+		float ViewPosition = (MainMap->MyStatus.AreaSize * Count) * 100.0f;
+		// 移動方向
+		ViewLocation = FVector(ViewPosition, ViewPosition, 5000.0f);
 
+		IsView = true;
 	}
 }
 
