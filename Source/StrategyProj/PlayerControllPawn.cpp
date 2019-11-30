@@ -3,6 +3,7 @@
 #include "PlayerControllPawn.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 APlayerControllPawn::APlayerControllPawn()
@@ -33,6 +34,38 @@ void APlayerControllPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+// 視点の変更
+void APlayerControllPawn::ChangeViewMode()
+{
+	// MapCreateが格納されていない場合実行
+	if (MainMap == nullptr) {
+		// MapCreateを探索
+		TSubclassOf<AMapCreate> findClass;
+		findClass = AMapCreate::StaticClass();
+		TArray<AActor*> actors;
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), findClass, actors);
+
+		// 探索した結果を格納
+		MainMap = Cast<AMapCreate>(actors[0]);
+	}
+
+	// 俯瞰からキャラクター視点へ
+	if (IsView) {
+		IsView = false;
+	}
+	// 俯瞰視点へ
+	else {
+		// 部屋の数から中間を取得
+		int Count = (MainMap->MyStatus.RoomCount - 1) * 0.5f;
+		// 中間地点の座標点を計算
+		float ViewPosition = (MainMap->MyStatus.AreaSize * Count) * 100.0f;
+		// 移動方向
+		ViewLocation = FVector(ViewPosition, ViewPosition, 5000.0f);
+
+		IsView = true;
+	}
 }
 
 // 次に移動するキャラクターを表示

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "BattleCharacter.h"
+#include "MapCreate.h"
 #include "PlayerControllPawn.generated.h"
 
 UCLASS()
@@ -37,16 +38,26 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Character")
 	int Index;
 
-	// 現在アクティブ(選択中)なキャラクター
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Character")
-	ABattleCharacter* ActiveCharacter;
-
-	UFUNCTION(BlueprintCallable, Category = "Character")
-		ABattleCharacter* GetNextCharacter();
+	// MapCreateの参照
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Map")
+		AMapCreate* MainMap;
 
 	// 俯瞰視点かどうか
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Status")
-	bool IsView;
+		bool IsView;
+	// 俯瞰視点時のステージの中間座標
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Status")
+		FVector ViewLocation;
+	// 視点モード変更
+	UFUNCTION(BlueprintCallable, Category = "Character")
+		void ChangeViewMode();
+
+	// 現在アクティブ(選択中)なキャラクター
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Character")
+		ABattleCharacter* ActiveCharacter;
+	// 次に移動するキャラクターを取得
+	UFUNCTION(BlueprintCallable, Category = "Character")
+		ABattleCharacter* GetNextCharacter();
 
 	// カメラの回転量
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
